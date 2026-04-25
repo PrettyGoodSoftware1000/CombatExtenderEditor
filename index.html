@@ -65,7 +65,7 @@ body::after{
 .wrap{
   position:relative;
   z-index:3;
-  max-width:1080px;
+  max-width:1320px;
   margin:0 auto;
   padding:60px 32px 80px;
 }
@@ -516,6 +516,54 @@ body.show-bosses  .summary-block[data-side="enemies"]{display:none !important}
 /* hide the irrelevant row in the comparison tables */
 body.show-enemies tr[data-row="boss"]{display:none}
 body.show-bosses  tr[data-row="enemy"]{display:none}
+
+/* ---- 2-COLUMN WORK GRID: preview left, edits right ---- */
+.work-grid{
+  display:grid;
+  grid-template-columns:minmax(0,460px) minmax(0,1fr);
+  gap:32px;
+  align-items:start;
+  margin-bottom:36px;
+}
+.preview-col{
+  position:sticky;
+  top:24px;
+  align-self:start;
+  max-height:calc(100vh - 48px);
+  overflow-y:auto;
+  /* custom scrollbar */
+  scrollbar-width:thin;
+  scrollbar-color:var(--border-gold) transparent;
+}
+.preview-col::-webkit-scrollbar{width:8px}
+.preview-col::-webkit-scrollbar-track{background:transparent}
+.preview-col::-webkit-scrollbar-thumb{
+  background:var(--border-gold);
+  border-radius:4px;
+}
+.preview-col::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+/* the panel inside the preview col can shrink */
+.preview-col section.panel{padding:24px 22px 20px}
+.preview-col h2{font-size:20px;letter-spacing:0.18em}
+.preview-col h4{font-size:12px;letter-spacing:0.18em}
+.preview-col table.tome{font-size:14px}
+.preview-col table.tome th,
+.preview-col table.tome td{padding:7px 8px}
+.preview-col table.tome thead th{font-size:10px;letter-spacing:0.1em}
+.preview-col .tables-grid{grid-template-columns:1fr;gap:18px}
+.table-scroll{overflow-x:auto}
+.table-scroll::-webkit-scrollbar{height:6px}
+.table-scroll::-webkit-scrollbar-thumb{background:var(--border-gold);border-radius:3px}
+
+.edit-col{min-width:0}
+.edit-col section.panel{margin-bottom:24px}
+.edit-col section.panel:last-child{margin-bottom:0}
+
+@media (max-width:980px){
+  .work-grid{grid-template-columns:1fr;gap:24px}
+  .preview-col{position:static;max-height:none;overflow:visible}
+}
 </style>
 </head>
 <body>
@@ -537,7 +585,7 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
 <div class="toolbar">
   <button class="btn" id="openFolderBtn" title="Copy the Script Extender folder path to clipboard">⚐ Get Ye Folder Location</button>
   <label class="file-label" for="fileInput">
-    <button class="btn" type="button" onclick="document.getElementById('fileInput').click()">⏍ Load Ye Configuration</button>
+    <button class="btn" type="button" onclick="document.getElementById('fileInput').click()">⏍ Load Configuration</button>
   </label>
   <input type="file" id="fileInput" accept=".json,application/json">
   <span class="file-label"><span class="name" id="fileName">— No tome loaded —</span></span>
@@ -555,6 +603,47 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
     <button type="button" class="toggle-btn active" data-side="enemies"><span class="marker"></span>For Enemies</button>
     <button type="button" class="toggle-btn" data-side="bosses"><span class="marker"></span>For Bosses</button>
   </div>
+
+<div class="work-grid">
+
+  <!-- LEFT COLUMN — LIVE PREVIEW -->
+  <aside class="preview-col">
+    <section class="panel">
+      <span class="corner-tl"></span><span class="corner-br"></span>
+      <h2>Settings Preview</h2>
+      <div class="section-rule"></div>
+
+      <div class="summary-block" data-side="bosses">
+        <h4>Boost by Level — Bosses</h4>
+        <div class="table-scroll"><table class="tome" id="bossBoostTable"></table></div>
+      </div>
+
+      <div class="summary-block" data-side="enemies">
+        <h4>Boost by Level — Enemies</h4>
+        <div class="table-scroll"><table class="tome" id="enemyBoostTable"></table></div>
+      </div>
+
+      <div class="summary-block">
+        <div class="tables-grid">
+          <div>
+            <h4>Health Boost</h4>
+            <table class="tome" id="healthTable"></table>
+          </div>
+          <div>
+            <h4>Movement Boost</h4>
+            <table class="tome" id="movementTable"></table>
+          </div>
+          <div>
+            <h4>Extra Action</h4>
+            <table class="tome" id="actionTable"></table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </aside>
+
+  <!-- RIGHT COLUMN — EDIT PANELS -->
+  <div class="edit-col">
 
   <!-- ARMOUR CLASS -->
   <section class="panel">
@@ -673,14 +762,14 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
     </div>
   </section>
 
-  <!-- ROLLS -->
+  <!-- ATTACK ROLLS -->
   <section class="panel">
     <span class="corner-tl"></span><span class="corner-br"></span>
-    <h2>Rolls</h2>
+    <h2>Attack Rolls</h2>
     <div class="section-rule"></div>
     <div class="subgroups">
       <div class="subgroup" data-side="bosses">
-        <h3>Bosses — Attack</h3>
+        <h3>Bosses</h3>
         <div class="field-row">
           <span class="label-strong">Attack Roll Bonus for Bosses</span>
           <span class="plus">+</span>
@@ -695,7 +784,7 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
         </div>
       </div>
       <div class="subgroup" data-side="enemies">
-        <h3>Enemies — Attack</h3>
+        <h3>Enemies</h3>
         <div class="field-row">
           <span class="label-strong">Attack Roll Bonus for Enemies</span>
           <span class="plus">+</span>
@@ -709,8 +798,17 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
           <span>levels.</span>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- SAVING THROWS -->
+  <section class="panel">
+    <span class="corner-tl"></span><span class="corner-br"></span>
+    <h2>Saving Throws</h2>
+    <div class="section-rule"></div>
+    <div class="subgroups">
       <div class="subgroup" data-side="bosses">
-        <h3>Bosses — Saving Throw</h3>
+        <h3>Bosses</h3>
         <div class="field-row">
           <span class="label-strong">Saving Throw Bonus for Bosses</span>
           <span class="plus">+</span>
@@ -725,7 +823,7 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
         </div>
       </div>
       <div class="subgroup" data-side="enemies">
-        <h3>Enemies — Saving Throw</h3>
+        <h3>Enemies</h3>
         <div class="field-row">
           <span class="label-strong">Saving Throw Bonus for Enemies</span>
           <span class="plus">+</span>
@@ -781,50 +879,19 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
     </div>
   </section>
 
+  </div><!-- /.edit-col -->
+</div><!-- /.work-grid -->
+
   <!-- DOWNLOAD -->
   <div class="download-bar">
     <button class="btn primary" id="downloadBtn">⚜ Save & Download Modified Tome</button>
   </div>
 
-  <!-- SUMMARY -->
-  <section class="panel">
-    <span class="corner-tl"></span><span class="corner-br"></span>
-    <h2>Settings Preview</h2>
-    <div class="section-rule"></div>
-
-    <div class="summary-block" data-side="bosses">
-      <h4>Boost by Level — Bosses</h4>
-      <table class="tome" id="bossBoostTable"></table>
-    </div>
-
-    <div class="summary-block" data-side="enemies">
-      <h4>Boost by Level — Enemies</h4>
-      <table class="tome" id="enemyBoostTable"></table>
-    </div>
-
-    <div class="summary-block">
-      <div class="tables-grid">
-        <div>
-          <h4>Health Boost</h4>
-          <table class="tome" id="healthTable"></table>
-        </div>
-        <div>
-          <h4>Movement Boost</h4>
-          <table class="tome" id="movementTable"></table>
-        </div>
-        <div>
-          <h4>Extra Action</h4>
-          <table class="tome" id="actionTable"></table>
-        </div>
-      </div>
-    </div>
-  </section>
-
 </main>
 
 <footer>
   <span class="div"></span>
-  <em>“Gird your loins, lest your loins take a beating — lest that's what you're into.”</em>
+  <em>“Gird your loins, lest your loins take a beating, lest that's what you're into.”</em>
 </footer>
 
 </div>
@@ -963,14 +1030,10 @@ function buildModifiedJson(){
 $("#downloadBtn").addEventListener("click", ()=>{
   if(!originalJson){ toast("LOAD A FILE FIRST"); return; }
 
-  const pad = n => String(n).padStart(2,"0");
-  const now = new Date();
-  const stamp = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
-
   // 1) BACKUP — the user's original uploaded file, unchanged byte-for-byte
   const backupBlob = new Blob([originalRawText], {type:"application/json"});
   const backupUrl  = URL.createObjectURL(backupBlob);
-  const backupName = `CombatExtender_previous_file_from_${stamp}.json.backup`;
+  const backupName = "CombatExtender_previous_file.json.backup";
   const a1 = document.createElement("a");
   a1.href = backupUrl;
   a1.download = backupName;
