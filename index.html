@@ -454,6 +454,68 @@ footer .div{
   padding:24px;
   margin:36px 0;
 }
+
+/* ---- SIDE TOGGLE ---- */
+.side-toggle{
+  display:flex;justify-content:center;align-items:center;gap:0;
+  margin:0 0 32px;
+  position:relative;
+}
+.side-toggle::before,.side-toggle::after{
+  content:"";flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border-gold) 70%);
+  margin:0 18px;
+}
+.side-toggle::after{
+  background:linear-gradient(90deg,var(--border-gold) 0%,transparent 30%);
+}
+.toggle-btn{
+  font-family:'Cinzel',serif;
+  font-weight:600;
+  font-size:13px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  padding:12px 28px;
+  background:linear-gradient(180deg,#1a1209 0%,#0d0905 100%);
+  color:var(--text-muted);
+  border:1px solid var(--border-soft);
+  border-radius:1px;
+  cursor:pointer;
+  transition:all 0.18s ease;
+  box-shadow:0 0 0 1px #000 inset;
+}
+.toggle-btn:first-of-type{border-right:none}
+.toggle-btn:hover{
+  color:var(--gold);
+  border-color:var(--border-gold);
+}
+.toggle-btn.active{
+  background:linear-gradient(180deg,#7a1818 0%,#3a0c0c 100%);
+  color:#f4e0c8;
+  border-color:#a04040;
+  text-shadow:0 1px 2px rgba(0,0,0,0.7);
+  box-shadow:
+    0 0 0 1px #000 inset,
+    0 0 18px rgba(192,40,40,0.4);
+}
+.toggle-btn .marker{
+  display:inline-block;width:6px;height:6px;
+  background:currentColor;
+  transform:rotate(45deg);
+  margin-right:10px;
+  vertical-align:middle;
+  opacity:0.7;
+}
+
+/* hide the inactive side everywhere (but NOT the toggle buttons themselves) */
+body.show-enemies .subgroup[data-side="bosses"],
+body.show-enemies .summary-block[data-side="bosses"]{display:none !important}
+body.show-bosses  .subgroup[data-side="enemies"],
+body.show-bosses  .summary-block[data-side="enemies"]{display:none !important}
+
+/* hide the irrelevant row in the comparison tables */
+body.show-enemies tr[data-row="boss"]{display:none}
+body.show-bosses  tr[data-row="enemy"]{display:none}
 </style>
 </head>
 <body>
@@ -469,13 +531,13 @@ footer .div{
     <span class="ornament"></span>
   </div>
   <h1>Combat Extender</h1>
-  <div class="subtitle">A loremaster's tool for Baldur's Gate 3 — Script Extender configuration</div>
+  <div class="subtitle">For those who want to live in much more interesting times.</div>
 </header>
 
 <div class="toolbar">
-  <button class="btn" id="openFolderBtn" title="Copy the Script Extender folder path to clipboard">⚐ Open File Location</button>
+  <button class="btn" id="openFolderBtn" title="Copy the Script Extender folder path to clipboard">⚐ Get Ye Folder Location</button>
   <label class="file-label" for="fileInput">
-    <button class="btn" type="button" onclick="document.getElementById('fileInput').click()">⏍ Load Configuration</button>
+    <button class="btn" type="button" onclick="document.getElementById('fileInput').click()">⏍ Load Ye Configuration</button>
   </label>
   <input type="file" id="fileInput" accept=".json,application/json">
   <span class="file-label"><span class="name" id="fileName">— No tome loaded —</span></span>
@@ -483,10 +545,16 @@ footer .div{
 
 <div id="emptyState" class="empty">
   <span class="icon">❦</span>
-  Load a <em>CombatExtender.json</em> file to begin shaping the trials of the realm.
+  Load a <em>CombatExtender.json</em> file to mess with the settings.
 </div>
 
 <main id="editor" hidden>
+
+  <!-- SIDE TOGGLE -->
+  <div class="side-toggle">
+    <button type="button" class="toggle-btn active" data-side="enemies"><span class="marker"></span>For Enemies</button>
+    <button type="button" class="toggle-btn" data-side="bosses"><span class="marker"></span>For Bosses</button>
+  </div>
 
   <!-- ARMOUR CLASS -->
   <section class="panel">
@@ -494,7 +562,7 @@ footer .div{
     <h2>Armour Class</h2>
     <div class="section-rule"></div>
     <div class="subgroups">
-      <div class="subgroup">
+      <div class="subgroup" data-side="bosses">
         <h3>Bosses</h3>
         <div class="field-row">
           <span class="label-strong">Armor Boost for Bosses</span>
@@ -509,7 +577,7 @@ footer .div{
           <span>levels.</span>
         </div>
       </div>
-      <div class="subgroup">
+      <div class="subgroup" data-side="enemies">
         <h3>Enemies</h3>
         <div class="field-row">
           <span class="label-strong">Armor Boost for Enemies</span>
@@ -533,7 +601,7 @@ footer .div{
     <h2>Damage</h2>
     <div class="section-rule"></div>
     <div class="subgroups">
-      <div class="subgroup">
+      <div class="subgroup" data-side="bosses">
         <h3>Bosses</h3>
         <div class="field-row">
           <span class="label-strong">Damage Boost for Bosses</span>
@@ -548,7 +616,7 @@ footer .div{
           <span>levels.</span>
         </div>
       </div>
-      <div class="subgroup">
+      <div class="subgroup" data-side="enemies">
         <h3>Enemies</h3>
         <div class="field-row">
           <span class="label-strong">Damage Boost for Enemies</span>
@@ -572,7 +640,7 @@ footer .div{
     <h2>Health</h2>
     <div class="section-rule"></div>
     <div class="subgroups">
-      <div class="subgroup">
+      <div class="subgroup" data-side="bosses">
         <h3>Bosses</h3>
         <div class="field-row">
           <span class="label-strong">Health Boost for Bosses</span>
@@ -587,7 +655,7 @@ footer .div{
           <span>more Health per level.</span>
         </div>
       </div>
-      <div class="subgroup">
+      <div class="subgroup" data-side="enemies">
         <h3>Enemies</h3>
         <div class="field-row">
           <span class="label-strong">Health Boost for Enemies</span>
@@ -611,7 +679,7 @@ footer .div{
     <h2>Rolls</h2>
     <div class="section-rule"></div>
     <div class="subgroups">
-      <div class="subgroup">
+      <div class="subgroup" data-side="bosses">
         <h3>Bosses — Attack</h3>
         <div class="field-row">
           <span class="label-strong">Attack Roll Bonus for Bosses</span>
@@ -626,7 +694,7 @@ footer .div{
           <span>levels.</span>
         </div>
       </div>
-      <div class="subgroup">
+      <div class="subgroup" data-side="enemies">
         <h3>Enemies — Attack</h3>
         <div class="field-row">
           <span class="label-strong">Attack Roll Bonus for Enemies</span>
@@ -641,7 +709,7 @@ footer .div{
           <span>levels.</span>
         </div>
       </div>
-      <div class="subgroup">
+      <div class="subgroup" data-side="bosses">
         <h3>Bosses — Saving Throw</h3>
         <div class="field-row">
           <span class="label-strong">Saving Throw Bonus for Bosses</span>
@@ -656,7 +724,7 @@ footer .div{
           <span>levels.</span>
         </div>
       </div>
-      <div class="subgroup">
+      <div class="subgroup" data-side="enemies">
         <h3>Enemies — Saving Throw</h3>
         <div class="field-row">
           <span class="label-strong">Saving Throw Bonus for Enemies</span>
@@ -680,7 +748,7 @@ footer .div{
     <h2>Spell Save DC</h2>
     <div class="section-rule"></div>
     <div class="subgroups">
-      <div class="subgroup">
+      <div class="subgroup" data-side="bosses">
         <h3>Bosses</h3>
         <div class="field-row">
           <span class="label-strong">Spell Save DC Boost for Bosses</span>
@@ -695,7 +763,7 @@ footer .div{
           <span>levels.</span>
         </div>
       </div>
-      <div class="subgroup">
+      <div class="subgroup" data-side="enemies">
         <h3>Enemies</h3>
         <div class="field-row">
           <span class="label-strong">Spell Save DC Boost for Enemies</span>
@@ -724,12 +792,12 @@ footer .div{
     <h2>Settings Preview</h2>
     <div class="section-rule"></div>
 
-    <div class="summary-block">
+    <div class="summary-block" data-side="bosses">
       <h4>Boost by Level — Bosses</h4>
       <table class="tome" id="bossBoostTable"></table>
     </div>
 
-    <div class="summary-block">
+    <div class="summary-block" data-side="enemies">
       <h4>Boost by Level — Enemies</h4>
       <table class="tome" id="enemyBoostTable"></table>
     </div>
@@ -756,7 +824,7 @@ footer .div{
 
 <footer>
   <span class="div"></span>
-  <em>“By candle and quill, may your foes prove worthy.”</em>
+  <em>“Gird your loins, lest your loins take a beating — lest that's what you're into.”</em>
 </footer>
 
 </div>
@@ -765,10 +833,24 @@ footer .div{
 const SCRIPT_EXTENDER_PATH = "%localappdata%\\Larian Studios\\Baldur's Gate 3\\Script Extender";
 
 let originalJson = null;          // pristine parsed JSON, never mutated
+let originalRawText = null;       // pristine raw text of the uploaded file (for backup)
 let loadedFileName = "CombatExtender.json";
 
 const $ = (sel,root=document)=>root.querySelector(sel);
 const $$ = (sel,root=document)=>Array.from(root.querySelectorAll(sel));
+
+// default view shows ENEMIES
+document.body.classList.add("show-enemies");
+
+// SIDE TOGGLE
+$$(".toggle-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const side = btn.dataset.side; // "enemies" or "bosses"
+    document.body.classList.remove("show-enemies","show-bosses");
+    document.body.classList.add("show-"+side);
+    $$(".toggle-btn").forEach(b=>b.classList.toggle("active", b===btn));
+  });
+});
 
 // ---------- TOAST ----------
 function toast(msg, pathLine){
@@ -804,6 +886,7 @@ $("#fileInput").addEventListener("change", (e)=>{
   const reader = new FileReader();
   reader.onload = (ev)=>{
     try{
+      originalRawText = ev.target.result;
       originalJson = JSON.parse(ev.target.result);
       $("#fileName").textContent = file.name;
       $("#emptyState").hidden = true;
@@ -879,18 +962,39 @@ function buildModifiedJson(){
 // ---------- DOWNLOAD ----------
 $("#downloadBtn").addEventListener("click", ()=>{
   if(!originalJson){ toast("LOAD A FILE FIRST"); return; }
-  const modified = buildModifiedJson();
-  const json = JSON.stringify(modified, null, 4);
-  const blob = new Blob([json], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = loadedFileName.replace(/\.json$/i,"") + "_modified.json";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(()=>URL.revokeObjectURL(url), 1500);
-  toast("TOME SAVED — " + a.download);
+
+  const pad = n => String(n).padStart(2,"0");
+  const now = new Date();
+  const stamp = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
+
+  // 1) BACKUP — the user's original uploaded file, unchanged byte-for-byte
+  const backupBlob = new Blob([originalRawText], {type:"application/json"});
+  const backupUrl  = URL.createObjectURL(backupBlob);
+  const backupName = `CombatExtender_previous_file_from_${stamp}.json.backup`;
+  const a1 = document.createElement("a");
+  a1.href = backupUrl;
+  a1.download = backupName;
+  document.body.appendChild(a1);
+  a1.click();
+  document.body.removeChild(a1);
+
+  // 2) MODIFIED — keeps the original filename CombatExtender.json
+  // tiny delay so the browser doesn't merge/cancel the second download
+  setTimeout(()=>{
+    const modified = buildModifiedJson();
+    const json = JSON.stringify(modified, null, 4);
+    const blob = new Blob([json], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a2 = document.createElement("a");
+    a2.href = url;
+    a2.download = "CombatExtender.json";
+    document.body.appendChild(a2);
+    a2.click();
+    document.body.removeChild(a2);
+    setTimeout(()=>{ URL.revokeObjectURL(url); URL.revokeObjectURL(backupUrl); }, 1500);
+  }, 250);
+
+  toast("TWO TOMES SAVED — backup + new CombatExtender.json", backupName);
 });
 
 // ---------- SUMMARY TABLES ----------
@@ -970,8 +1074,8 @@ function renderSummary(){
     <thead><tr><th>Type</th><th>Static</th><th>Per Level</th></tr></thead>
     <tbody>
       <tr><td class="label">Ally</td><td class="value">0%</td><td class="value">0%</td></tr>
-      <tr><td class="label">Enemy</td><td class="value">+${he_static}%</td><td class="value">+${he_perlv}%</td></tr>
-      <tr><td class="label">Boss</td><td class="value">+${hb_static}%</td><td class="value">+${hb_perlv}%</td></tr>
+      <tr data-row="enemy"><td class="label">Enemy</td><td class="value">+${he_static}%</td><td class="value">+${he_perlv}%</td></tr>
+      <tr data-row="boss"><td class="label">Boss</td><td class="value">+${hb_static}%</td><td class="value">+${hb_perlv}%</td></tr>
     </tbody>`;
 
   // movement (read-only from original json)
@@ -982,8 +1086,8 @@ function renderSummary(){
     <thead><tr><th>Type</th><th>Boost (m)</th><th>Boost (ft)</th></tr></thead>
     <tbody>
       <tr><td class="label">Ally</td><td class="value">0</td><td class="value">0</td></tr>
-      <tr><td class="label">Enemy</td><td class="value">${movE}</td><td class="value">${mToFt(movE)}</td></tr>
-      <tr><td class="label">Boss</td><td class="value">${movB}</td><td class="value">${mToFt(movB)}</td></tr>
+      <tr data-row="enemy"><td class="label">Enemy</td><td class="value">${movE}</td><td class="value">${mToFt(movE)}</td></tr>
+      <tr data-row="boss"><td class="label">Boss</td><td class="value">${movB}</td><td class="value">${mToFt(movB)}</td></tr>
     </tbody>`;
 
   // extra action (read-only)
@@ -995,8 +1099,8 @@ function renderSummary(){
     <thead><tr><th>Type</th><th>Action</th><th>Bonus Action</th></tr></thead>
     <tbody>
       <tr><td class="label">Ally</td><td class="value">0</td><td class="value">0</td></tr>
-      <tr><td class="label">Enemy</td><td class="value">${eaE_a}</td><td class="value">${eaE_b}</td></tr>
-      <tr><td class="label">Boss</td><td class="value">${eaB_a}</td><td class="value">${eaB_b}</td></tr>
+      <tr data-row="enemy"><td class="label">Enemy</td><td class="value">${eaE_a}</td><td class="value">${eaE_b}</td></tr>
+      <tr data-row="boss"><td class="label">Boss</td><td class="value">${eaB_a}</td><td class="value">${eaB_b}</td></tr>
     </tbody>`;
 }
 </script>
