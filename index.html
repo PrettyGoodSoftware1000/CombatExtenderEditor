@@ -331,11 +331,21 @@ section.panel .section-rule::after{
   color:var(--text-primary);
 }
 .field-row .plus{
-  font-family:'Cinzel',serif;
-  color:var(--gold);
-  font-size:16px;
-  font-weight:600;
-  margin-right:-2px;
+  font-family:'Cinzel','EB Garamond',Georgia,serif;
+  color:var(--gold-glow);
+  font-size:28px;
+  font-weight:700;
+  line-height:0.7;
+  margin:0 4px 0 -2px;
+  letter-spacing:0;
+  text-shadow:
+    0 0 12px rgba(232,200,122,0.55),
+    0 0 3px rgba(232,200,122,0.85),
+    0 1px 2px rgba(0,0,0,0.85),
+    0 -1px 0 rgba(0,0,0,0.4);
+  position:relative;
+  top:3px;
+  display:inline-block;
 }
 .field-row .pct{
   color:var(--gold);
@@ -428,6 +438,11 @@ table.tome td.label{
   background:rgba(40,28,16,0.6) !important;
 }
 table.tome td.value{color:var(--text-primary);font-weight:500}
+table.tome td.value.changed{
+  color:var(--crimson-bright);
+  font-weight:700;
+  text-shadow:0 0 10px rgba(201,56,56,0.45),0 1px 2px rgba(0,0,0,0.7);
+}
 .boss-tag{color:var(--crimson-bright);font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.16em;display:block;margin-bottom:2px}
 
 .tables-grid{
@@ -597,7 +612,7 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
     <button class="btn" type="button" onclick="document.getElementById('fileInput').click()">⏍ Load Configuration</button>
   </label>
   <input type="file" id="fileInput" accept=".json,application/json">
-  <button class="btn primary" id="downloadBtn" hidden>⚜ Save & Download Modified Tome</button>
+  <button class="btn" id="downloadBtn" hidden>⚜ Download Modified Settings & Backup</button>
 </div>
 
 <div id="emptyState" class="empty">
@@ -635,10 +650,6 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
       <div class="summary-block">
         <div class="tables-grid">
           <div>
-            <h4>Health Boost</h4>
-            <table class="tome" id="healthTable"></table>
-          </div>
-          <div>
             <h4>Movement Boost</h4>
             <table class="tome" id="movementTable"></table>
           </div>
@@ -654,39 +665,39 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
   <!-- RIGHT COLUMN — EDIT PANELS -->
   <div class="edit-col">
 
-  <!-- ARMOUR CLASS -->
+  <!-- ATTACK ROLLS -->
   <section class="panel">
     <span class="corner-tl"></span><span class="corner-br"></span>
-    <h2>Armour Class</h2>
+    <h2>Attack Rolls</h2>
     <div class="section-rule"></div>
     <div class="subgroups">
       <div class="subgroup" data-side="bosses">
         <h3>Bosses</h3>
         <div class="field-row">
-          <span class="label-strong">Armor Boost for Bosses</span>
+          <span class="label-strong">Attack Roll Bonus for Bosses</span>
           <span class="plus">+</span>
-          <input type="number" data-path="ArmourClass.Bosses.StaticBoost">
+          <input type="number" data-path="Rolls.Bosses.Attack.StaticRollBonus">
         </div>
         <div class="field-row">
-          <span>Add</span>
-          <input type="number" data-path="ArmourClass.Bosses.BoostPerIncrement">
-          <span>more Armor every</span>
-          <input type="number" data-path="ArmourClass.Bosses.LevelIncrement">
+          <span class="plus">+</span>
+          <input type="number" data-path="Rolls.Bosses.Attack.RollBonusPerIncrement">
+          <span>more Attack Roll every</span>
+          <input type="number" data-path="Rolls.Bosses.Attack.LevelIncrement">
           <span>levels.</span>
         </div>
       </div>
       <div class="subgroup" data-side="enemies">
         <h3>Enemies</h3>
         <div class="field-row">
-          <span class="label-strong">Armor Boost for Enemies</span>
+          <span class="label-strong">Attack Roll Bonus for Enemies</span>
           <span class="plus">+</span>
-          <input type="number" data-path="ArmourClass.Enemies.StaticBoost">
+          <input type="number" data-path="Rolls.Enemies.Attack.StaticRollBonus">
         </div>
         <div class="field-row">
-          <span>Add</span>
-          <input type="number" data-path="ArmourClass.Enemies.BoostPerIncrement">
-          <span>more Armor every</span>
-          <input type="number" data-path="ArmourClass.Enemies.LevelIncrement">
+          <span class="plus">+</span>
+          <input type="number" data-path="Rolls.Enemies.Attack.RollBonusPerIncrement">
+          <span>more Attack Roll every</span>
+          <input type="number" data-path="Rolls.Enemies.Attack.LevelIncrement">
           <span>levels.</span>
         </div>
       </div>
@@ -707,7 +718,7 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
           <input type="number" data-path="Damage.Bosses.StaticDamageBoost">
         </div>
         <div class="field-row">
-          <span>Add</span>
+          <span class="plus">+</span>
           <input type="number" data-path="Damage.Bosses.DamagePerIncrement">
           <span>more Damage every</span>
           <input type="number" data-path="Damage.Bosses.LevelIncrement">
@@ -722,10 +733,49 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
           <input type="number" data-path="Damage.Enemies.StaticDamageBoost">
         </div>
         <div class="field-row">
-          <span>Add</span>
+          <span class="plus">+</span>
           <input type="number" data-path="Damage.Enemies.DamagePerIncrement">
           <span>more Damage every</span>
           <input type="number" data-path="Damage.Enemies.LevelIncrement">
+          <span>levels.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARMOUR CLASS -->
+  <section class="panel">
+    <span class="corner-tl"></span><span class="corner-br"></span>
+    <h2>Armour Class</h2>
+    <div class="section-rule"></div>
+    <div class="subgroups">
+      <div class="subgroup" data-side="bosses">
+        <h3>Bosses</h3>
+        <div class="field-row">
+          <span class="label-strong">Armor Boost for Bosses</span>
+          <span class="plus">+</span>
+          <input type="number" data-path="ArmourClass.Bosses.StaticBoost">
+        </div>
+        <div class="field-row">
+          <span class="plus">+</span>
+          <input type="number" data-path="ArmourClass.Bosses.BoostPerIncrement">
+          <span>more Armor every</span>
+          <input type="number" data-path="ArmourClass.Bosses.LevelIncrement">
+          <span>levels.</span>
+        </div>
+      </div>
+      <div class="subgroup" data-side="enemies">
+        <h3>Enemies</h3>
+        <div class="field-row">
+          <span class="label-strong">Armor Boost for Enemies</span>
+          <span class="plus">+</span>
+          <input type="number" data-path="ArmourClass.Enemies.StaticBoost">
+        </div>
+        <div class="field-row">
+          <span class="plus">+</span>
+          <input type="number" data-path="ArmourClass.Enemies.BoostPerIncrement">
+          <span>more Armor every</span>
+          <input type="number" data-path="ArmourClass.Enemies.LevelIncrement">
           <span>levels.</span>
         </div>
       </div>
@@ -747,7 +797,7 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
           <span class="pct">%</span>
         </div>
         <div class="field-row">
-          <span>Add</span>
+          <span class="plus">+</span>
           <input type="number" data-path="Health.Bosses.HealthPerLevel" data-pct="1" step="0.1">
           <span class="pct">%</span>
           <span>more Health per level.</span>
@@ -762,49 +812,10 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
           <span class="pct">%</span>
         </div>
         <div class="field-row">
-          <span>Add</span>
+          <span class="plus">+</span>
           <input type="number" data-path="Health.Enemies.HealthPerLevel" data-pct="1" step="0.1">
           <span class="pct">%</span>
           <span>more Health per level.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ATTACK ROLLS -->
-  <section class="panel">
-    <span class="corner-tl"></span><span class="corner-br"></span>
-    <h2>Attack Rolls</h2>
-    <div class="section-rule"></div>
-    <div class="subgroups">
-      <div class="subgroup" data-side="bosses">
-        <h3>Bosses</h3>
-        <div class="field-row">
-          <span class="label-strong">Attack Roll Bonus for Bosses</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="Rolls.Bosses.Attack.StaticRollBonus">
-        </div>
-        <div class="field-row">
-          <span>Add</span>
-          <input type="number" data-path="Rolls.Bosses.Attack.RollBonusPerIncrement">
-          <span>more Attack Roll every</span>
-          <input type="number" data-path="Rolls.Bosses.Attack.LevelIncrement">
-          <span>levels.</span>
-        </div>
-      </div>
-      <div class="subgroup" data-side="enemies">
-        <h3>Enemies</h3>
-        <div class="field-row">
-          <span class="label-strong">Attack Roll Bonus for Enemies</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="Rolls.Enemies.Attack.StaticRollBonus">
-        </div>
-        <div class="field-row">
-          <span>Add</span>
-          <input type="number" data-path="Rolls.Enemies.Attack.RollBonusPerIncrement">
-          <span>more Attack Roll every</span>
-          <input type="number" data-path="Rolls.Enemies.Attack.LevelIncrement">
-          <span>levels.</span>
         </div>
       </div>
     </div>
@@ -824,7 +835,7 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
           <input type="number" data-path="Rolls.Bosses.SavingThrow.StaticRollBonus">
         </div>
         <div class="field-row">
-          <span>Add</span>
+          <span class="plus">+</span>
           <input type="number" data-path="Rolls.Bosses.SavingThrow.RollBonusPerIncrement">
           <span>more Saving Throw every</span>
           <input type="number" data-path="Rolls.Bosses.SavingThrow.LevelIncrement">
@@ -839,7 +850,7 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
           <input type="number" data-path="Rolls.Enemies.SavingThrow.StaticRollBonus">
         </div>
         <div class="field-row">
-          <span>Add</span>
+          <span class="plus">+</span>
           <input type="number" data-path="Rolls.Enemies.SavingThrow.RollBonusPerIncrement">
           <span>more Saving Throw every</span>
           <input type="number" data-path="Rolls.Enemies.SavingThrow.LevelIncrement">
@@ -863,7 +874,7 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
           <input type="number" data-path="SpellSaveDC.Bosses.StaticBoost">
         </div>
         <div class="field-row">
-          <span>Add</span>
+          <span class="plus">+</span>
           <input type="number" data-path="SpellSaveDC.Bosses.BoostPerIncrement">
           <span>more DC every</span>
           <input type="number" data-path="SpellSaveDC.Bosses.LevelIncrement">
@@ -878,7 +889,7 @@ body.show-bosses  tr[data-row="enemy"]{display:none}
           <input type="number" data-path="SpellSaveDC.Enemies.StaticBoost">
         </div>
         <div class="field-row">
-          <span>Add</span>
+          <span class="plus">+</span>
           <input type="number" data-path="SpellSaveDC.Enemies.BoostPerIncrement">
           <span>more DC every</span>
           <input type="number" data-path="SpellSaveDC.Enemies.LevelIncrement">
@@ -964,9 +975,10 @@ $("#fileInput").addEventListener("change", (e)=>{
       // reveal the download button in the toolbar (replaces the old filename label)
       const dl = $("#downloadBtn");
       dl.hidden = false;
-      dl.textContent = "⚜ Save & Download Modified Tome";
+      dl.classList.remove("primary");   // default gold style
       dl.dataset.dirty = "0";
       populateFields();
+      originalCells = computeBoostCells();   // baseline AFTER fields populated
       renderSummary();
       toast("TOME LOADED — " + file.name);
     }catch(err){
@@ -977,13 +989,13 @@ $("#fileInput").addEventListener("change", (e)=>{
   reader.readAsText(file);
 });
 
-// when ANY editable field is changed, swap the button text
+// when ANY editable field is changed, swap the button to the red 'dirty' style
 document.addEventListener("input", (e)=>{
   if(e.target.matches("input[data-path]")){
     const dl = $("#downloadBtn");
     if(dl && dl.dataset.dirty !== "1"){
       dl.dataset.dirty = "1";
-      dl.textContent = "⚜ Download Modified Settings & Backup";
+      dl.classList.add("primary");
     }
   }
 });
@@ -1091,53 +1103,60 @@ function calcBoost(level, staticBoost, perInc, levelInc){
   return staticBoost + Math.floor(level / levelInc) * perInc;
 }
 
+// snapshot of computed boost cells when file is freshly loaded; later compared per render
+let originalCells = null;
+
+function computeBoostCells(){
+  const out = {};
+  for(const side of ["Bosses","Enemies"]){
+    const params = {
+      ac:  {s:readField(`ArmourClass.${side}.StaticBoost`),       p:readField(`ArmourClass.${side}.BoostPerIncrement`),       l:readField(`ArmourClass.${side}.LevelIncrement`)},
+      dmg: {s:readField(`Damage.${side}.StaticDamageBoost`),      p:readField(`Damage.${side}.DamagePerIncrement`),           l:readField(`Damage.${side}.LevelIncrement`)},
+      atk: {s:readField(`Rolls.${side}.Attack.StaticRollBonus`),  p:readField(`Rolls.${side}.Attack.RollBonusPerIncrement`),  l:readField(`Rolls.${side}.Attack.LevelIncrement`)},
+      sav: {s:readField(`Rolls.${side}.SavingThrow.StaticRollBonus`), p:readField(`Rolls.${side}.SavingThrow.RollBonusPerIncrement`), l:readField(`Rolls.${side}.SavingThrow.LevelIncrement`)},
+      dc:  {s:readField(`SpellSaveDC.${side}.StaticBoost`),       p:readField(`SpellSaveDC.${side}.BoostPerIncrement`),       l:readField(`SpellSaveDC.${side}.LevelIncrement`)}
+    };
+    const hpStatic = readField(`Health.${side}.StaticBoost`);    // displayed as %
+    const hpPerLv  = readField(`Health.${side}.HealthPerLevel`); // displayed as %
+    for(let lv=1; lv<=12; lv++){
+      out[`${side}_${lv}_atk`] = calcBoost(lv, params.atk.s, params.atk.p, params.atk.l);
+      out[`${side}_${lv}_dmg`] = calcBoost(lv, params.dmg.s, params.dmg.p, params.dmg.l);
+      out[`${side}_${lv}_ac`]  = calcBoost(lv, params.ac.s,  params.ac.p,  params.ac.l);
+      out[`${side}_${lv}_hp`]  = Math.round((hpStatic + hpPerLv * lv) * 10) / 10; // 1dp
+      out[`${side}_${lv}_sav`] = calcBoost(lv, params.sav.s, params.sav.p, params.sav.l);
+      out[`${side}_${lv}_dc`]  = calcBoost(lv, params.dc.s,  params.dc.p,  params.dc.l);
+    }
+  }
+  return out;
+}
+
 function renderSummary(){
   const MAX_LEVEL = 12;
+  const cells = computeBoostCells();
+  const isChanged = key => originalCells && cells[key] !== originalCells[key];
+  const cellCls   = key => "value" + (isChanged(key) ? " changed" : "");
 
   function makeBoostTable(side){
-    // side = "Bosses" or "Enemies"
-    const ac = {
-      s: readField(`ArmourClass.${side}.StaticBoost`),
-      p: readField(`ArmourClass.${side}.BoostPerIncrement`),
-      l: readField(`ArmourClass.${side}.LevelIncrement`)
-    };
-    const dmg = {
-      s: readField(`Damage.${side}.StaticDamageBoost`),
-      p: readField(`Damage.${side}.DamagePerIncrement`),
-      l: readField(`Damage.${side}.LevelIncrement`)
-    };
-    const atk = {
-      s: readField(`Rolls.${side}.Attack.StaticRollBonus`),
-      p: readField(`Rolls.${side}.Attack.RollBonusPerIncrement`),
-      l: readField(`Rolls.${side}.Attack.LevelIncrement`)
-    };
-    const sav = {
-      s: readField(`Rolls.${side}.SavingThrow.StaticRollBonus`),
-      p: readField(`Rolls.${side}.SavingThrow.RollBonusPerIncrement`),
-      l: readField(`Rolls.${side}.SavingThrow.LevelIncrement`)
-    };
-    const dc = {
-      s: readField(`SpellSaveDC.${side}.StaticBoost`),
-      p: readField(`SpellSaveDC.${side}.BoostPerIncrement`),
-      l: readField(`SpellSaveDC.${side}.LevelIncrement`)
-    };
     let html = `<thead><tr>
       <th>Level</th>
-      <th>Armour Class</th>
-      <th>Damage / Attack</th>
       <th>Attack Roll</th>
+      <th>Damage</th>
+      <th>Armour Class</th>
+      <th>Health</th>
       <th>Saving Throw</th>
       <th>Spell Save DC</th>
     </tr></thead><tbody>`;
+    const fmtSigned  = n => (n>=0?"+":"") + n;
+    const fmtPercent = n => (n>=0?"+":"") + (Number.isInteger(n) ? n : n.toFixed(1)) + "%";
     for(let lv=1; lv<=MAX_LEVEL; lv++){
-      const fmt = n => (n>=0?"+":"") + n;
       html += `<tr>
         <td class="label">Lv ${lv}</td>
-        <td class="value">${fmt(calcBoost(lv, ac.s, ac.p, ac.l))}</td>
-        <td class="value">${fmt(calcBoost(lv, dmg.s, dmg.p, dmg.l))}</td>
-        <td class="value">${fmt(calcBoost(lv, atk.s, atk.p, atk.l))}</td>
-        <td class="value">${fmt(calcBoost(lv, sav.s, sav.p, sav.l))}</td>
-        <td class="value">${fmt(calcBoost(lv, dc.s, dc.p, dc.l))}</td>
+        <td class="${cellCls(`${side}_${lv}_atk`)}">${fmtSigned(cells[`${side}_${lv}_atk`])}</td>
+        <td class="${cellCls(`${side}_${lv}_dmg`)}">${fmtSigned(cells[`${side}_${lv}_dmg`])}</td>
+        <td class="${cellCls(`${side}_${lv}_ac`)}">${fmtSigned(cells[`${side}_${lv}_ac`])}</td>
+        <td class="${cellCls(`${side}_${lv}_hp`)}">${fmtPercent(cells[`${side}_${lv}_hp`])}</td>
+        <td class="${cellCls(`${side}_${lv}_sav`)}">${fmtSigned(cells[`${side}_${lv}_sav`])}</td>
+        <td class="${cellCls(`${side}_${lv}_dc`)}">${fmtSigned(cells[`${side}_${lv}_dc`])}</td>
       </tr>`;
     }
     html += `</tbody>`;
@@ -1147,19 +1166,6 @@ function renderSummary(){
   $("#bossBoostTable").innerHTML = makeBoostTable("Bosses");
   $("#enemyBoostTable").innerHTML = makeBoostTable("Enemies");
 
-  // health table (percent)
-  const hb_static = readField("Health.Bosses.StaticBoost");      // already pct
-  const hb_perlv  = readField("Health.Bosses.HealthPerLevel");   // already pct
-  const he_static = readField("Health.Enemies.StaticBoost");
-  const he_perlv  = readField("Health.Enemies.HealthPerLevel");
-  $("#healthTable").innerHTML = `
-    <thead><tr><th>Type</th><th>Static</th><th>Per Level</th></tr></thead>
-    <tbody>
-      <tr><td class="label">Ally</td><td class="value">0%</td><td class="value">0%</td></tr>
-      <tr data-row="enemy"><td class="label">Enemy</td><td class="value">+${he_static}%</td><td class="value">+${he_perlv}%</td></tr>
-      <tr data-row="boss"><td class="label">Boss</td><td class="value">+${hb_static}%</td><td class="value">+${hb_perlv}%</td></tr>
-    </tbody>`;
-
   // movement (read-only from original json)
   const movB = (originalJson?.Movement?.Bosses?.StaticBoost) ?? 0;
   const movE = (originalJson?.Movement?.Enemies?.StaticBoost) ?? 0;
@@ -1167,7 +1173,6 @@ function renderSummary(){
   $("#movementTable").innerHTML = `
     <thead><tr><th>Type</th><th>Boost (m)</th><th>Boost (ft)</th></tr></thead>
     <tbody>
-      <tr><td class="label">Ally</td><td class="value">0</td><td class="value">0</td></tr>
       <tr data-row="enemy"><td class="label">Enemy</td><td class="value">${movE}</td><td class="value">${mToFt(movE)}</td></tr>
       <tr data-row="boss"><td class="label">Boss</td><td class="value">${movB}</td><td class="value">${mToFt(movB)}</td></tr>
     </tbody>`;
@@ -1180,7 +1185,6 @@ function renderSummary(){
   $("#actionTable").innerHTML = `
     <thead><tr><th>Type</th><th>Action</th><th>Bonus Action</th></tr></thead>
     <tbody>
-      <tr><td class="label">Ally</td><td class="value">0</td><td class="value">0</td></tr>
       <tr data-row="enemy"><td class="label">Enemy</td><td class="value">${eaE_a}</td><td class="value">${eaE_b}</td></tr>
       <tr data-row="boss"><td class="label">Boss</td><td class="value">${eaB_a}</td><td class="value">${eaB_b}</td></tr>
     </tbody>`;
