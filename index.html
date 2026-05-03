@@ -9,1185 +9,496 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg-deep:#08050a;
-  --bg-base:#14100c;
-  --bg-panel:#1c1610;
-  --bg-elevated:#251c14;
-  --bg-input:#0e0a06;
-  --border-soft:#3d2e1a;
-  --border-gold:#6b5429;
-  --gold:#c9a961;
-  --gold-bright:#e8c87a;
-  --gold-glow:#f0d590;
-  --crimson:#a02020;
-  --crimson-deep:#6b1010;
-  --crimson-bright:#c93838;
-  --text-primary:#e8d9b8;
-  --text-secondary:#b09a78;
-  --text-muted:#7a6a52;
-  --shadow-dark:rgba(0,0,0,0.7);
-  --shadow-gold:rgba(201,169,97,0.18);
+  --bg-deep:#08050a;--bg-base:#14100c;--bg-panel:#1c1610;--bg-elevated:#251c14;--bg-input:#0e0a06;
+  --border-soft:#3d2e1a;--border-gold:#6b5429;
+  --gold:#c9a961;--gold-bright:#e8c87a;--gold-glow:#f0d590;
+  --crimson:#a02020;--crimson-deep:#6b1010;--crimson-bright:#c93838;
+  --text-primary:#e8d9b8;--text-secondary:#b09a78;--text-muted:#7a6a52;
+  --shadow-dark:rgba(0,0,0,0.7);--shadow-gold:rgba(201,169,97,0.18);
 }
-
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg-deep);color:var(--text-primary);font-family:'Cormorant Garamond',Georgia,serif;min-height:100vh}
+body{background:radial-gradient(ellipse at top,#231811 0%,transparent 55%),radial-gradient(ellipse at bottom,#1a0a0a 0%,transparent 60%),radial-gradient(ellipse at 50% 50%,#1a140e 0%,#06040a 90%);background-attachment:fixed;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:0.4;z-index:1;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.5 0 0 0 0 0.3 0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");mix-blend-mode:overlay}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:2;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.65) 100%)}
+.wrap{position:relative;z-index:3;max-width:1540px;margin:0 auto;padding:60px 32px 80px}
 
-body{
-  background:
-    radial-gradient(ellipse at top,#231811 0%,transparent 55%),
-    radial-gradient(ellipse at bottom,#1a0a0a 0%,transparent 60%),
-    radial-gradient(ellipse at 50% 50%,#1a140e 0%,#06040a 90%);
-  background-attachment:fixed;
-  position:relative;
-  overflow-x:hidden;
-}
+header{text-align:center;margin-bottom:48px}
+.crest{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:18px;color:var(--gold)}
+.crest .ornament{flex:0 0 auto;display:inline-block;height:1px;width:120px;background:linear-gradient(90deg,transparent,var(--gold) 40%,var(--gold) 60%,transparent);position:relative}
+.crest .ornament::before,.crest .ornament::after{content:"";position:absolute;top:50%;width:6px;height:6px;background:var(--gold);transform:translateY(-50%) rotate(45deg)}
+.crest .ornament::before{left:0}.crest .ornament::after{right:0}
+.crest .sigil{font-size:28px;filter:drop-shadow(0 0 8px var(--shadow-gold))}
+h1{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(28px,4.2vw,46px);letter-spacing:0.18em;margin:0;background:linear-gradient(180deg,var(--gold-glow) 0%,var(--gold) 50%,#8a6f30 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{margin-top:12px;font-style:italic;font-size:18px;color:var(--text-secondary);letter-spacing:0.05em}
 
-/* parchment grain overlay */
-body::before{
-  content:"";
-  position:fixed;inset:0;
-  pointer-events:none;
-  opacity:0.4;
-  z-index:1;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.5 0 0 0 0 0.3 0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  mix-blend-mode:overlay;
-}
-
-/* vignette */
-body::after{
-  content:"";
-  position:fixed;inset:0;
-  pointer-events:none;
-  z-index:2;
-  background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.65) 100%);
-}
-
-.wrap{
-  position:relative;
-  z-index:3;
-  max-width:1440px;
-  margin:0 auto;
-  padding:60px 32px 80px;
-}
-
-/* ---- HEADER ---- */
-header{
-  text-align:center;
-  margin-bottom:48px;
-  position:relative;
-}
-
-.crest{
-  display:flex;align-items:center;justify-content:center;gap:18px;
-  margin-bottom:18px;
-  color:var(--gold);
-}
-.crest .ornament{
-  flex:0 0 auto;
-  display:inline-block;
-  height:1px;width:120px;
-  background:linear-gradient(90deg,transparent,var(--gold) 40%,var(--gold) 60%,transparent);
-  position:relative;
-}
-.crest .ornament::before,.crest .ornament::after{
-  content:"";
-  position:absolute;top:50%;
-  width:6px;height:6px;
-  background:var(--gold);
-  transform:translateY(-50%) rotate(45deg);
-}
-.crest .ornament::before{left:0}
-.crest .ornament::after{right:0}
-.crest .sigil{
-  font-size:28px;
-  filter:drop-shadow(0 0 8px var(--shadow-gold));
-}
-
-h1{
-  font-family:'Cinzel',serif;
-  font-weight:700;
-  font-size:clamp(28px,4.2vw,46px);
-  letter-spacing:0.18em;
-  margin:0;
-  background:linear-gradient(180deg,var(--gold-glow) 0%,var(--gold) 50%,#8a6f30 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  text-shadow:0 2px 0 rgba(0,0,0,0.4);
-}
-.subtitle{
-  margin-top:12px;
-  font-style:italic;
-  font-size:18px;
-  color:var(--text-secondary);
-  letter-spacing:0.05em;
-}
-
-/* ---- TOP ACTIONS ---- */
-.toolbar{
-  display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;
-  margin-bottom:36px;
-  padding:18px 24px;
-  background:linear-gradient(180deg,var(--bg-panel),var(--bg-base));
-  border:1px solid var(--border-gold);
-  border-radius:2px;
-  box-shadow:
-    0 0 0 1px var(--bg-deep) inset,
-    0 0 0 2px var(--border-soft) inset,
-    0 8px 30px var(--shadow-dark);
-  position:relative;
-}
-.toolbar::before,.toolbar::after{
-  content:"";position:absolute;width:18px;height:18px;
-  border:2px solid var(--gold);
-}
+.toolbar{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;margin-bottom:36px;padding:18px 24px;background:linear-gradient(180deg,var(--bg-panel),var(--bg-base));border:1px solid var(--border-gold);border-radius:2px;box-shadow:0 0 0 1px var(--bg-deep) inset,0 0 0 2px var(--border-soft) inset,0 8px 30px var(--shadow-dark);position:relative}
+.toolbar::before,.toolbar::after{content:"";position:absolute;width:18px;height:18px;border:2px solid var(--gold)}
 .toolbar::before{top:-4px;left:-4px;border-right:none;border-bottom:none}
 .toolbar::after{bottom:-4px;right:-4px;border-left:none;border-top:none}
 
-button.btn{
-  font-family:'Cinzel',serif;
-  font-weight:600;
-  font-size:13px;
-  letter-spacing:0.18em;
-  text-transform:uppercase;
-  padding:11px 22px;
-  background:linear-gradient(180deg,#3a2a16 0%,#1f1610 100%);
-  color:var(--gold-bright);
-  border:1px solid var(--border-gold);
-  border-radius:1px;
-  cursor:pointer;
-  transition:all 0.18s ease;
-  position:relative;
-  text-shadow:0 1px 2px rgba(0,0,0,0.7);
-  box-shadow:
-    0 0 0 1px #000 inset,
-    0 4px 0 rgba(0,0,0,0.4);
-}
-button.btn:hover{
-  background:linear-gradient(180deg,#5a4020 0%,#2a1d12 100%);
-  color:var(--gold-glow);
-  border-color:var(--gold);
-  box-shadow:
-    0 0 0 1px #000 inset,
-    0 0 18px var(--shadow-gold),
-    0 4px 0 rgba(0,0,0,0.4);
-}
+button.btn{font-family:'Cinzel',serif;font-weight:600;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;padding:11px 22px;background:linear-gradient(180deg,#3a2a16 0%,#1f1610 100%);color:var(--gold-bright);border:1px solid var(--border-gold);border-radius:1px;cursor:pointer;transition:all 0.18s ease;text-shadow:0 1px 2px rgba(0,0,0,0.7);box-shadow:0 0 0 1px #000 inset,0 4px 0 rgba(0,0,0,0.4)}
+button.btn:hover{background:linear-gradient(180deg,#5a4020 0%,#2a1d12 100%);color:var(--gold-glow);border-color:var(--gold);box-shadow:0 0 0 1px #000 inset,0 0 18px var(--shadow-gold),0 4px 0 rgba(0,0,0,0.4)}
 button.btn:active{transform:translateY(2px);box-shadow:0 0 0 1px #000 inset,0 2px 0 rgba(0,0,0,0.4)}
-button.btn:disabled{opacity:0.45;cursor:not-allowed;color:var(--text-muted)}
-
-button.btn.primary{
-  background:linear-gradient(180deg,#7a1818 0%,#3a0c0c 100%);
-  border-color:#a04040;
-  color:#f4e0c8;
-}
-button.btn.primary:hover{
-  background:linear-gradient(180deg,#a02525 0%,#4a1010 100%);
-  border-color:var(--crimson-bright);
-  box-shadow:0 0 18px rgba(192,40,40,0.4),0 4px 0 rgba(0,0,0,0.4);
-}
-
-.file-label{
-  display:inline-flex;align-items:center;gap:10px;
-  font-family:'Cinzel',serif;font-size:13px;
-  letter-spacing:0.12em;
-  color:var(--text-secondary);
-  font-style:normal;
-}
-.file-label .name{
-  color:var(--gold);
-  font-style:italic;
-  font-family:'Cormorant Garamond',serif;
-  font-size:16px;
-  letter-spacing:normal;
-}
-
+button.btn.primary{background:linear-gradient(180deg,#7a1818 0%,#3a0c0c 100%);border-color:#a04040;color:#f4e0c8}
+button.btn.primary:hover{background:linear-gradient(180deg,#a02525 0%,#4a1010 100%);border-color:var(--crimson-bright);box-shadow:0 0 18px rgba(192,40,40,0.4),0 4px 0 rgba(0,0,0,0.4)}
 input[type="file"]{display:none}
 
-/* ---- TOAST ---- */
-.toast{
-  position:fixed;
-  top:32px;left:50%;transform:translateX(-50%) translateY(-180%);
-  background:linear-gradient(180deg,var(--bg-panel),var(--bg-base));
-  border:1px solid var(--gold);
-  color:var(--gold-bright);
-  padding:14px 28px;
-  font-family:'Cinzel',serif;
-  font-size:13px;letter-spacing:0.14em;
-  z-index:100;
-  transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
-  box-shadow:0 0 30px rgba(0,0,0,0.8),0 0 20px var(--shadow-gold);
-  max-width:90%;
-  text-align:center;
-}
+.toast{position:fixed;top:32px;left:50%;transform:translateX(-50%) translateY(-180%);background:linear-gradient(180deg,var(--bg-panel),var(--bg-base));border:1px solid var(--gold);color:var(--gold-bright);padding:14px 28px;font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.14em;z-index:100;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 30px rgba(0,0,0,0.8),0 0 20px var(--shadow-gold);max-width:90%;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
-.toast .path{
-  display:block;margin-top:6px;
-  font-family:'Courier New',monospace;
-  font-size:12px;color:var(--text-secondary);letter-spacing:normal;
-}
+.toast .path{display:block;margin-top:6px;font-family:'Courier New',monospace;font-size:12px;color:var(--text-secondary);letter-spacing:normal}
 
-/* ---- EMPTY STATE ---- */
-.empty{
-  text-align:center;padding:80px 30px;
-  border:1px dashed var(--border-gold);
-  border-radius:2px;
-  background:linear-gradient(180deg,var(--bg-panel),var(--bg-base));
-  font-family:'Cormorant Garamond',serif;
-  font-style:italic;
-  font-size:22px;
-  color:var(--text-secondary);
-}
+.empty{text-align:center;padding:80px 30px;border:1px dashed var(--border-gold);border-radius:2px;background:linear-gradient(180deg,var(--bg-panel),var(--bg-base));font-style:italic;font-size:22px;color:var(--text-secondary)}
 .empty .icon{font-size:48px;color:var(--gold);display:block;margin-bottom:14px}
 
-/* ---- SECTION PANELS ---- */
-section.panel{
-  position:relative;
-  margin-bottom:36px;
-  background:linear-gradient(180deg,var(--bg-panel) 0%,var(--bg-base) 100%);
-  border:1px solid var(--border-gold);
-  padding:32px 36px 28px;
-  box-shadow:
-    0 0 0 1px var(--bg-deep) inset,
-    0 0 0 2px var(--border-soft) inset,
-    inset 0 0 60px rgba(0,0,0,0.6),
-    0 12px 40px var(--shadow-dark);
-}
-/* corner brackets */
-section.panel::before,
-section.panel::after,
-section.panel > .corner-tl,
-section.panel > .corner-br{
-  content:"";position:absolute;width:22px;height:22px;
-  border:2px solid var(--gold);
-  pointer-events:none;
-}
+section.panel{position:relative;margin-bottom:36px;background:linear-gradient(180deg,var(--bg-panel) 0%,var(--bg-base) 100%);border:1px solid var(--border-gold);padding:32px 36px 28px;box-shadow:0 0 0 1px var(--bg-deep) inset,0 0 0 2px var(--border-soft) inset,inset 0 0 60px rgba(0,0,0,0.6),0 12px 40px var(--shadow-dark)}
+section.panel::before,section.panel::after,section.panel>.corner-tl,section.panel>.corner-br{content:"";position:absolute;width:22px;height:22px;border:2px solid var(--gold);pointer-events:none}
 section.panel::before{top:-5px;left:-5px;border-right:none;border-bottom:none}
 section.panel::after{top:-5px;right:-5px;border-left:none;border-bottom:none}
-section.panel > .corner-tl{bottom:-5px;left:-5px;border-right:none;border-top:none}
-section.panel > .corner-br{bottom:-5px;right:-5px;border-left:none;border-top:none}
+section.panel>.corner-tl{bottom:-5px;left:-5px;border-right:none;border-top:none}
+section.panel>.corner-br{bottom:-5px;right:-5px;border-left:none;border-top:none}
+section.panel h2{font-family:'Cinzel',serif;font-weight:700;font-size:24px;letter-spacing:0.22em;text-transform:uppercase;margin:0 0 6px;color:var(--gold-bright);text-shadow:0 1px 0 #000,0 0 22px var(--shadow-gold)}
+section.panel .section-rule{display:block;height:1px;background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold) 80%,transparent);margin:0 0 24px;position:relative}
+section.panel .section-rule::after{content:"\2756";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--bg-panel);color:var(--gold);padding:0 12px;font-size:11px}
 
-section.panel h2{
-  font-family:'Cinzel',serif;
-  font-weight:700;
-  font-size:24px;
-  letter-spacing:0.22em;
-  text-transform:uppercase;
-  margin:0 0 6px;
-  color:var(--gold-bright);
-  text-shadow:0 1px 0 #000,0 0 22px var(--shadow-gold);
-}
-section.panel .section-rule{
-  display:block;height:1px;
-  background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold) 80%,transparent);
-  margin:0 0 24px;
-  position:relative;
-}
-section.panel .section-rule::after{
-  content:"❖";
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  background:var(--bg-panel);
-  color:var(--gold);
-  padding:0 12px;
-  font-size:11px;
-}
+.subgroups{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+@media(max-width:760px){.subgroups{grid-template-columns:1fr}}
+.subgroup h3{font-family:'Cinzel',serif;font-weight:600;font-size:14px;letter-spacing:0.28em;text-transform:uppercase;color:var(--crimson-bright);margin:0 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;gap:10px}
+.subgroup h3::before{content:"";display:inline-block;width:8px;height:8px;background:var(--crimson-bright);transform:rotate(45deg);box-shadow:0 0 10px rgba(201,56,56,0.6)}
+.field-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0;font-size:18px;color:var(--text-primary);line-height:1.6}
+.field-row .plus{font-family:'Cinzel',Georgia,serif;color:var(--gold-glow);font-size:28px;font-weight:700;line-height:0.7;margin:0 4px 0 -2px;text-shadow:0 0 12px rgba(232,200,122,0.55),0 0 3px rgba(232,200,122,0.85),0 1px 2px rgba(0,0,0,0.85);position:relative;top:3px;display:inline-block}
+.field-row .pct{color:var(--gold);font-family:'Cinzel',serif;font-size:16px;margin-left:-4px}
+input[type="number"]{width:64px;font-family:'Cinzel',serif;font-size:16px;font-weight:600;text-align:center;padding:6px 4px;background:var(--bg-input);border:1px solid var(--border-gold);border-bottom:1px solid var(--gold);color:var(--gold-bright);border-radius:1px;outline:none;transition:all .15s;box-shadow:inset 0 1px 4px rgba(0,0,0,0.6);appearance:textfield;-moz-appearance:textfield}
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type="number"]:focus{border-color:var(--gold-bright);box-shadow:inset 0 1px 4px rgba(0,0,0,0.6),0 0 14px var(--shadow-gold);color:var(--gold-glow)}
 
-.subgroups{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:30px;
-}
-@media (max-width:760px){.subgroups{grid-template-columns:1fr}}
-
-.subgroup h3{
-  font-family:'Cinzel',serif;
-  font-weight:600;
-  font-size:14px;
-  letter-spacing:0.28em;
-  text-transform:uppercase;
-  color:var(--crimson-bright);
-  margin:0 0 16px;
-  padding-bottom:8px;
-  border-bottom:1px solid var(--border-soft);
-  display:flex;align-items:center;gap:10px;
-}
-.subgroup h3::before{
-  content:"";
-  display:inline-block;
-  width:8px;height:8px;
-  background:var(--crimson-bright);
-  transform:rotate(45deg);
-  box-shadow:0 0 10px rgba(201,56,56,0.6);
-}
-
-.field-row{
-  display:flex;flex-wrap:wrap;align-items:center;gap:8px;
-  margin:10px 0;
-  font-size:18px;
-  color:var(--text-primary);
-  line-height:1.6;
-}
-.field-row .label-strong{
-  color:var(--text-primary);
-}
-.field-row .plus{
-  font-family:'Cinzel','EB Garamond',Georgia,serif;
-  color:var(--gold-glow);
-  font-size:28px;
-  font-weight:700;
-  line-height:0.7;
-  margin:0 4px 0 -2px;
-  letter-spacing:0;
-  text-shadow:
-    0 0 12px rgba(232,200,122,0.55),
-    0 0 3px rgba(232,200,122,0.85),
-    0 1px 2px rgba(0,0,0,0.85),
-    0 -1px 0 rgba(0,0,0,0.4);
-  position:relative;
-  top:3px;
-  display:inline-block;
-}
-.field-row .pct{
-  color:var(--gold);
-  font-family:'Cinzel',serif;
-  font-size:16px;
-  margin-left:-4px;
-}
-
-input[type="number"]{
-  width:64px;
-  font-family:'Cinzel',serif;
-  font-size:16px;
-  font-weight:600;
-  text-align:center;
-  padding:6px 4px;
-  background:var(--bg-input);
-  border:1px solid var(--border-gold);
-  border-bottom:1px solid var(--gold);
-  color:var(--gold-bright);
-  border-radius:1px;
-  outline:none;
-  transition:all 0.15s ease;
-  box-shadow:inset 0 1px 4px rgba(0,0,0,0.6);
-  appearance:textfield;
-  -moz-appearance:textfield;
-}
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button{
-  -webkit-appearance:none;margin:0;
-}
-input[type="number"]:focus{
-  border-color:var(--gold-bright);
-  box-shadow:inset 0 1px 4px rgba(0,0,0,0.6),0 0 14px var(--shadow-gold);
-  color:var(--gold-glow);
-}
-input[type="number"].wide{width:80px}
-
-/* ---- SUMMARY TABLES ---- */
-.summary-block{
-  margin-top:24px;
-}
-.summary-block + .summary-block{margin-top:32px}
-
-.summary-block h4{
-  font-family:'Cinzel',serif;
-  font-weight:600;
-  font-size:14px;
-  letter-spacing:0.22em;
-  text-transform:uppercase;
-  color:var(--gold);
-  margin:0 0 12px;
-  padding-left:14px;
-  border-left:3px solid var(--crimson);
-}
-
-table.tome{
-  width:100%;
-  border-collapse:collapse;
-  background:var(--bg-input);
-  border:1px solid var(--border-gold);
-  font-size:16px;
-  font-family:'Cormorant Garamond',serif;
-  box-shadow:inset 0 0 30px rgba(0,0,0,0.5);
-}
-table.tome th,table.tome td{
-  padding:10px 14px;
-  text-align:center;
-  border:1px solid var(--border-soft);
-}
-table.tome thead th{
-  background:linear-gradient(180deg,#3a2818 0%,#1c130c 100%);
-  color:var(--gold-bright);
-  font-family:'Cinzel',serif;
-  font-weight:600;
-  font-size:12px;
-  letter-spacing:0.16em;
-  text-transform:uppercase;
-  border-bottom:2px solid var(--gold);
-}
+table.tome{width:100%;border-collapse:collapse;background:var(--bg-input);border:1px solid var(--border-gold);font-family:'Cormorant Garamond',serif;box-shadow:inset 0 0 30px rgba(0,0,0,0.5)}
+table.tome th,table.tome td{padding:10px 14px;text-align:center;border:1px solid var(--border-soft)}
+table.tome thead th{background:linear-gradient(180deg,#3a2818 0%,#1c130c 100%);color:var(--gold-bright);font-family:'Cinzel',serif;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;border-bottom:2px solid var(--gold)}
 table.tome tbody tr:nth-child(odd) td{background:rgba(40,28,16,0.4)}
 table.tome tbody tr:nth-child(even) td{background:rgba(20,14,10,0.4)}
 table.tome tbody tr:hover td{background:rgba(107,84,41,0.25)}
-table.tome td.label{
-  color:var(--gold);
-  font-family:'Cinzel',serif;
-  font-size:13px;
-  letter-spacing:0.1em;
-  text-align:left;
-  font-weight:500;
-  background:rgba(40,28,16,0.6) !important;
-}
+table.tome td.label{color:var(--gold);font-family:'Cinzel',serif;letter-spacing:0.1em;text-align:left;font-weight:500;background:rgba(40,28,16,0.6)!important}
 table.tome td.value{color:var(--text-primary);font-weight:500}
-table.tome td.value.changed{
-  color:var(--crimson-bright);
-  font-weight:700;
-  text-shadow:0 0 10px rgba(201,56,56,0.45),0 1px 2px rgba(0,0,0,0.7);
-}
-.boss-tag{color:var(--crimson-bright);font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.16em;display:block;margin-bottom:2px}
+table.tome td.value.changed{color:var(--crimson-bright);font-weight:700;text-shadow:0 0 10px rgba(201,56,56,0.45),0 1px 2px rgba(0,0,0,0.7)}
 
-.tables-grid{
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;
-}
-@media (max-width:760px){.tables-grid{grid-template-columns:1fr}}
+/* toggle */
+.side-toggle{display:flex;justify-content:center;align-items:center;gap:0;margin:0 0 32px}
+.side-toggle::before,.side-toggle::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border-gold) 70%);margin:0 18px}
+.side-toggle::after{background:linear-gradient(90deg,var(--border-gold) 0%,transparent 30%)}
+.toggle-btn{font-family:'Cinzel',serif;font-weight:600;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 28px;background:linear-gradient(180deg,#1a1209,#0d0905);color:var(--text-muted);border:1px solid var(--border-soft);border-radius:1px;cursor:pointer;transition:all .18s;box-shadow:0 0 0 1px #000 inset}
+.toggle-btn+.toggle-btn{border-left:none}
+.toggle-btn:hover{color:var(--gold);border-color:var(--border-gold)}
+.toggle-btn.active{background:linear-gradient(180deg,#7a1818,#3a0c0c);color:#f4e0c8;border-color:#a04040;text-shadow:0 1px 2px rgba(0,0,0,0.7);box-shadow:0 0 0 1px #000 inset,0 0 18px rgba(192,40,40,0.4)}
+.toggle-btn .marker{display:inline-block;width:6px;height:6px;background:currentColor;transform:rotate(45deg);margin-right:10px;vertical-align:middle;opacity:0.7}
 
-footer{
-  text-align:center;margin-top:60px;
-  font-style:italic;
-  color:var(--text-muted);
-  font-size:14px;
-  letter-spacing:0.06em;
-}
-footer .div{
-  display:block;margin:0 auto 14px;
-  width:200px;height:1px;
-  background:linear-gradient(90deg,transparent,var(--border-gold),transparent);
-}
-
-/* download bar */
-.download-bar{
-  display:flex;justify-content:center;align-items:center;gap:18px;
-  padding:24px;
-  margin:36px 0;
-}
-
-/* ---- SIDE TOGGLE ---- */
-.side-toggle{
-  display:flex;justify-content:center;align-items:center;gap:0;
-  margin:0 0 32px;
-  position:relative;
-}
-.side-toggle::before,.side-toggle::after{
-  content:"";flex:1;height:1px;
-  background:linear-gradient(90deg,transparent,var(--border-gold) 70%);
-  margin:0 18px;
-}
-.side-toggle::after{
-  background:linear-gradient(90deg,var(--border-gold) 0%,transparent 30%);
-}
-.toggle-btn{
-  font-family:'Cinzel',serif;
-  font-weight:600;
-  font-size:13px;
-  letter-spacing:0.2em;
-  text-transform:uppercase;
-  padding:12px 28px;
-  background:linear-gradient(180deg,#1a1209 0%,#0d0905 100%);
-  color:var(--text-muted);
-  border:1px solid var(--border-soft);
-  border-radius:1px;
-  cursor:pointer;
-  transition:all 0.18s ease;
-  box-shadow:0 0 0 1px #000 inset;
-}
-.toggle-btn:first-of-type{border-right:none}
-.toggle-btn:hover{
-  color:var(--gold);
-  border-color:var(--border-gold);
-}
-.toggle-btn.active{
-  background:linear-gradient(180deg,#7a1818 0%,#3a0c0c 100%);
-  color:#f4e0c8;
-  border-color:#a04040;
-  text-shadow:0 1px 2px rgba(0,0,0,0.7);
-  box-shadow:
-    0 0 0 1px #000 inset,
-    0 0 18px rgba(192,40,40,0.4);
-}
-.toggle-btn .marker{
-  display:inline-block;width:6px;height:6px;
-  background:currentColor;
-  transform:rotate(45deg);
-  margin-right:10px;
-  vertical-align:middle;
-  opacity:0.7;
-}
-
-/* hide the inactive side everywhere (but NOT the toggle buttons themselves) */
-body.show-enemies .subgroup[data-side="bosses"],
-body.show-enemies .summary-block[data-side="bosses"]{display:none !important}
-body.show-bosses  .subgroup[data-side="enemies"],
-body.show-bosses  .summary-block[data-side="enemies"]{display:none !important}
-
-/* hide the irrelevant row in the comparison tables */
+/* side visibility */
+body.show-enemies .subgroup[data-side="bosses"],body.show-enemies .summary-block[data-side="bosses"]{display:none!important}
+body.show-bosses .subgroup[data-side="enemies"],body.show-bosses .summary-block[data-side="enemies"]{display:none!important}
 body.show-enemies tr[data-row="boss"]{display:none}
-body.show-bosses  tr[data-row="enemy"]{display:none}
+body.show-bosses tr[data-row="enemy"]{display:none}
+/* spells tab */
+body.show-spells .work-grid{display:none!important}
+body.show-spells .spells-tab{display:block!important}
+body:not(.show-spells) .spells-tab{display:none!important}
 
-/* ---- 2-COLUMN WORK GRID: preview left, edits right ---- */
-.work-grid{
-  display:grid;
-  grid-template-columns:minmax(0,690px) minmax(0,1fr);
-  gap:32px;
-  align-items:start;
-  margin-bottom:36px;
-}
-.preview-col{
-  position:sticky;
-  top:24px;
-  align-self:start;
-  max-height:calc(100vh - 48px);
-  overflow-y:auto;
-  /* custom scrollbar */
-  scrollbar-width:thin;
-  scrollbar-color:var(--border-gold) transparent;
-}
+/* 2-column grid */
+.work-grid{display:grid;grid-template-columns:minmax(0,780px) minmax(0,1fr);gap:32px;align-items:start;margin-bottom:36px}
+.preview-col{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border-gold) transparent}
 .preview-col::-webkit-scrollbar{width:8px}
 .preview-col::-webkit-scrollbar-track{background:transparent}
-.preview-col::-webkit-scrollbar-thumb{
-  background:var(--border-gold);
-  border-radius:4px;
-}
+.preview-col::-webkit-scrollbar-thumb{background:var(--border-gold);border-radius:4px}
 .preview-col::-webkit-scrollbar-thumb:hover{background:var(--gold)}
-
-/* preview panel — scaled ~1.5x for prominence */
-.preview-col section.panel{padding:34px 32px 28px}
-.preview-col h2{font-size:30px;letter-spacing:0.22em}
-.preview-col h4{font-size:18px;letter-spacing:0.22em;margin-bottom:16px;padding-left:18px;border-left-width:4px}
-.preview-col table.tome{font-size:21px}
-.preview-col table.tome th,
-.preview-col table.tome td{padding:11px 12px}
-.preview-col table.tome thead th{font-size:15px;letter-spacing:0.14em}
-.preview-col .summary-block + .summary-block{margin-top:36px}
-.preview-col .tables-grid{grid-template-columns:1fr;gap:26px}
+.preview-col section.panel{padding:28px 18px 22px}
+.preview-col h2{font-size:26px;letter-spacing:0.2em}
+.preview-col h4{font-size:16px;letter-spacing:0.2em;margin-bottom:14px;padding-left:16px;border-left:4px solid var(--crimson)}
+.preview-col table.tome{font-size:13px}
+.preview-col table.tome th,.preview-col table.tome td{padding:4px 5px;white-space:nowrap}
+.preview-col table.tome thead th{font-size:9px;letter-spacing:0.06em;padding:6px 5px}
+.preview-col .summary-block+.summary-block{margin-top:28px}
+.preview-col .tables-grid{display:grid;grid-template-columns:1fr;gap:22px}
 .table-scroll{overflow-x:auto}
-.table-scroll::-webkit-scrollbar{height:6px}
-.table-scroll::-webkit-scrollbar-thumb{background:var(--border-gold);border-radius:3px}
-
-/* edit column — slimmer panels, single-column subgroups */
 .edit-col{min-width:0}
-.edit-col section.panel{
-  margin-bottom:24px;
-  max-width:480px;
-  padding:26px 28px 22px;
-}
+.edit-col section.panel{margin-bottom:24px;max-width:480px;padding:26px 28px 22px}
 .edit-col section.panel:last-child{margin-bottom:0}
 .edit-col .subgroups{grid-template-columns:1fr;gap:18px}
 .edit-col h2{font-size:22px;letter-spacing:0.2em}
-
-@media (max-width:980px){
+@media(max-width:1100px){
   .work-grid{grid-template-columns:1fr;gap:24px}
   .preview-col{position:static;max-height:none;overflow:visible}
   .edit-col section.panel{max-width:none}
 }
+
+/* spells tab */
+.spells-tab{margin-bottom:36px}
+.spell-level-group{margin-bottom:28px}
+.spell-level-group h3{font-family:'Cinzel',serif;font-weight:700;font-size:20px;letter-spacing:0.18em;color:var(--gold-bright);margin:0 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border-gold);text-shadow:0 0 14px var(--shadow-gold)}
+.spell-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.spell-tag{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;background:var(--bg-input);border:1px solid var(--border-gold);color:var(--text-primary);font-size:16px;font-weight:500;border-radius:1px;transition:all .15s}
+.spell-tag:hover{border-color:var(--gold);background:rgba(107,84,41,0.2)}
+.spell-tag .remove-spell{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border:1px solid var(--border-soft);border-radius:50%;background:transparent;color:var(--crimson-bright);font-size:14px;font-weight:700;cursor:pointer;line-height:1;transition:all .15s;padding:0;font-family:'Cinzel',serif}
+.spell-tag .remove-spell:hover{background:var(--crimson);color:#fff;border-color:var(--crimson-bright);box-shadow:0 0 10px rgba(201,56,56,0.5)}
+.add-spell-row{display:flex;gap:10px;align-items:center;margin-top:6px}
+.add-spell-row input[type="text"]{flex:1;max-width:360px;font-family:'Cormorant Garamond',serif;font-size:16px;padding:8px 12px;background:var(--bg-input);border:1px solid var(--border-gold);border-bottom:1px solid var(--gold);color:var(--gold-bright);border-radius:1px;outline:none;transition:all .15s;box-shadow:inset 0 1px 4px rgba(0,0,0,0.6)}
+.add-spell-row input[type="text"]:focus{border-color:var(--gold-bright);box-shadow:inset 0 1px 4px rgba(0,0,0,0.6),0 0 14px var(--shadow-gold);color:var(--gold-glow)}
+.add-spell-row input[type="text"]::placeholder{color:var(--text-muted);font-style:italic}
+.add-spell-row button{font-family:'Cinzel',serif;font-weight:600;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;padding:8px 16px;background:linear-gradient(180deg,#3a2a16,#1f1610);color:var(--gold-bright);border:1px solid var(--border-gold);border-radius:1px;cursor:pointer;transition:all .15s;box-shadow:0 0 0 1px #000 inset}
+.add-spell-row button:hover{background:linear-gradient(180deg,#5a4020,#2a1d12);border-color:var(--gold);color:var(--gold-glow)}
+.spell-section-divider{display:flex;align-items:center;gap:14px;margin:32px 0 24px;font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.28em;text-transform:uppercase;color:var(--text-muted)}
+.spell-section-divider::before,.spell-section-divider::after{content:"";flex:1;height:1px;background:var(--border-soft)}
+.spell-slots-note{font-size:14px;color:var(--text-muted);font-style:italic;margin-top:2px;margin-bottom:4px}
+
+footer{text-align:center;margin-top:60px;font-style:italic;color:var(--text-muted);font-size:14px;letter-spacing:0.06em}
+footer .div{display:block;margin:0 auto 14px;width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--border-gold),transparent)}
 </style>
 </head>
 <body>
-
 <div class="toast" id="toast"></div>
-
 <div class="wrap">
-
 <header>
-  <div class="crest">
-    <span class="ornament"></span>
-    <span class="sigil">⚔</span>
-    <span class="ornament"></span>
-  </div>
+  <div class="crest"><span class="ornament"></span><span class="sigil">&#9876;</span><span class="ornament"></span></div>
   <h1>Combat Extender</h1>
   <div class="subtitle">For those who want to live in much more interesting times.</div>
 </header>
-
 <div class="toolbar">
-  <button class="btn" id="openFolderBtn" title="Copy the Script Extender folder path to clipboard">⚐ Get Ye Folder Location</button>
-  <label class="file-label" for="fileInput">
-    <button class="btn" type="button" onclick="document.getElementById('fileInput').click()">⏍ Load Configuration</button>
-  </label>
+  <button class="btn" id="openFolderBtn" title="Copy the Script Extender folder path to clipboard">&#9872; Get Ye Folder Location</button>
+  <label class="file-label" for="fileInput"><button class="btn" type="button" onclick="document.getElementById('fileInput').click()">&#9037; Load Configuration</button></label>
   <input type="file" id="fileInput" accept=".json,application/json">
-  <button class="btn" id="downloadBtn" hidden>⚜ Download Modified Settings & Backup</button>
+  <button class="btn" id="downloadBtn" hidden>&#9884; Download Modified Settings &amp; Backup</button>
 </div>
-
-<div id="emptyState" class="empty">
-  <span class="icon">❦</span>
-  Load a <em>CombatExtender.json</em> file to mess with the settings.
-</div>
+<div id="emptyState" class="empty"><span class="icon">&#10086;</span>Load a <em>CombatExtender.json</em> file to mess with the settings.</div>
 
 <main id="editor" hidden>
-
-  <!-- SIDE TOGGLE -->
   <div class="side-toggle">
-    <button type="button" class="toggle-btn active" data-side="enemies"><span class="marker"></span>For Enemies</button>
-    <button type="button" class="toggle-btn" data-side="bosses"><span class="marker"></span>For Bosses</button>
+    <button type="button" class="toggle-btn active" data-tab="enemies"><span class="marker"></span>For Enemies</button>
+    <button type="button" class="toggle-btn" data-tab="bosses"><span class="marker"></span>For Bosses</button>
+    <button type="button" class="toggle-btn" data-tab="spells"><span class="marker"></span>Spells</button>
   </div>
 
 <div class="work-grid">
-
-  <!-- LEFT COLUMN — LIVE PREVIEW -->
   <aside class="preview-col">
-    <section class="panel">
-      <span class="corner-tl"></span><span class="corner-br"></span>
-      <h2>Settings Preview</h2>
-      <div class="section-rule"></div>
-
-      <div class="summary-block" data-side="bosses">
-        <h4>Boost by Level — Bosses</h4>
-        <div class="table-scroll"><table class="tome" id="bossBoostTable"></table></div>
-      </div>
-
-      <div class="summary-block" data-side="enemies">
-        <h4>Boost by Level — Enemies</h4>
-        <div class="table-scroll"><table class="tome" id="enemyBoostTable"></table></div>
-      </div>
-
-      <div class="summary-block">
-        <div class="tables-grid">
-          <div>
-            <h4>Movement Boost</h4>
-            <table class="tome" id="movementTable"></table>
-          </div>
-          <div>
-            <h4>Extra Action</h4>
-            <table class="tome" id="actionTable"></table>
-          </div>
-        </div>
-      </div>
+    <section class="panel"><span class="corner-tl"></span><span class="corner-br"></span>
+      <h2>Settings Preview</h2><div class="section-rule"></div>
+      <div class="summary-block" data-side="bosses"><h4>Boost by Level &#8212; Bosses</h4><div class="table-scroll"><table class="tome" id="bossBoostTable"></table></div></div>
+      <div class="summary-block" data-side="enemies"><h4>Boost by Level &#8212; Enemies</h4><div class="table-scroll"><table class="tome" id="enemyBoostTable"></table></div></div>
+      <div class="summary-block"><div class="tables-grid">
+        <div><h4>Movement Boost</h4><table class="tome" id="movementTable"></table></div>
+        <div><h4>Extra Action</h4><table class="tome" id="actionTable"></table></div>
+      </div></div>
     </section>
   </aside>
-
-  <!-- RIGHT COLUMN — EDIT PANELS -->
   <div class="edit-col">
 
-  <!-- ATTACK ROLLS -->
-  <section class="panel">
-    <span class="corner-tl"></span><span class="corner-br"></span>
-    <h2>Attack Rolls</h2>
-    <div class="section-rule"></div>
-    <div class="subgroups">
-      <div class="subgroup" data-side="bosses">
-        <h3>Bosses</h3>
-        <div class="field-row">
-          <span class="label-strong">Attack Roll Bonus for Bosses</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="Rolls.Bosses.Attack.StaticRollBonus">
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="Rolls.Bosses.Attack.RollBonusPerIncrement">
-          <span>more Attack Roll every</span>
-          <input type="number" data-path="Rolls.Bosses.Attack.LevelIncrement">
-          <span>levels.</span>
-        </div>
-      </div>
-      <div class="subgroup" data-side="enemies">
-        <h3>Enemies</h3>
-        <div class="field-row">
-          <span class="label-strong">Attack Roll Bonus for Enemies</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="Rolls.Enemies.Attack.StaticRollBonus">
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="Rolls.Enemies.Attack.RollBonusPerIncrement">
-          <span>more Attack Roll every</span>
-          <input type="number" data-path="Rolls.Enemies.Attack.LevelIncrement">
-          <span>levels.</span>
-        </div>
-      </div>
-    </div>
+  <section class="panel"><span class="corner-tl"></span><span class="corner-br"></span><h2>Attack Rolls</h2><div class="section-rule"></div><div class="subgroups">
+    <div class="subgroup" data-side="bosses"><h3>Bosses</h3>
+      <div class="field-row"><span class="label-strong">Attack Roll Bonus for Bosses</span><span class="plus">+</span><input type="number" data-path="Rolls.Bosses.Attack.StaticRollBonus"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="Rolls.Bosses.Attack.RollBonusPerIncrement"><span>more Attack Roll every</span><input type="number" data-path="Rolls.Bosses.Attack.LevelIncrement"><span>levels.</span></div></div>
+    <div class="subgroup" data-side="enemies"><h3>Enemies</h3>
+      <div class="field-row"><span class="label-strong">Attack Roll Bonus for Enemies</span><span class="plus">+</span><input type="number" data-path="Rolls.Enemies.Attack.StaticRollBonus"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="Rolls.Enemies.Attack.RollBonusPerIncrement"><span>more Attack Roll every</span><input type="number" data-path="Rolls.Enemies.Attack.LevelIncrement"><span>levels.</span></div></div>
+  </div></section>
+
+  <section class="panel"><span class="corner-tl"></span><span class="corner-br"></span><h2>Damage</h2><div class="section-rule"></div><div class="subgroups">
+    <div class="subgroup" data-side="bosses"><h3>Bosses</h3>
+      <div class="field-row"><span class="label-strong">Damage Boost for Bosses</span><span class="plus">+</span><input type="number" data-path="Damage.Bosses.StaticDamageBoost"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="Damage.Bosses.DamagePerIncrement"><span>more Damage every</span><input type="number" data-path="Damage.Bosses.LevelIncrement"><span>levels.</span></div></div>
+    <div class="subgroup" data-side="enemies"><h3>Enemies</h3>
+      <div class="field-row"><span class="label-strong">Damage Boost for Enemies</span><span class="plus">+</span><input type="number" data-path="Damage.Enemies.StaticDamageBoost"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="Damage.Enemies.DamagePerIncrement"><span>more Damage every</span><input type="number" data-path="Damage.Enemies.LevelIncrement"><span>levels.</span></div></div>
+  </div></section>
+
+  <section class="panel"><span class="corner-tl"></span><span class="corner-br"></span><h2>Armour Class</h2><div class="section-rule"></div><div class="subgroups">
+    <div class="subgroup" data-side="bosses"><h3>Bosses</h3>
+      <div class="field-row"><span class="label-strong">Armor Boost for Bosses</span><span class="plus">+</span><input type="number" data-path="ArmourClass.Bosses.StaticBoost"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="ArmourClass.Bosses.BoostPerIncrement"><span>more Armor every</span><input type="number" data-path="ArmourClass.Bosses.LevelIncrement"><span>levels.</span></div></div>
+    <div class="subgroup" data-side="enemies"><h3>Enemies</h3>
+      <div class="field-row"><span class="label-strong">Armor Boost for Enemies</span><span class="plus">+</span><input type="number" data-path="ArmourClass.Enemies.StaticBoost"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="ArmourClass.Enemies.BoostPerIncrement"><span>more Armor every</span><input type="number" data-path="ArmourClass.Enemies.LevelIncrement"><span>levels.</span></div></div>
+  </div></section>
+
+  <section class="panel"><span class="corner-tl"></span><span class="corner-br"></span><h2>Ability Points</h2><div class="section-rule"></div><div class="subgroups">
+    <div class="subgroup" data-side="bosses"><h3>Bosses</h3>
+      <div class="field-row"><span class="label-strong">Ability Boost for Bosses</span><span class="plus">+</span><input type="number" data-path="AbilityPoints.Bosses.StaticBoost"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="AbilityPoints.Bosses.BoostPerIncrement"><span>more Ability Points every</span><input type="number" data-path="AbilityPoints.Bosses.LevelIncrement"><span>levels.</span></div></div>
+    <div class="subgroup" data-side="enemies"><h3>Enemies</h3>
+      <div class="field-row"><span class="label-strong">Ability Boost for Enemies</span><span class="plus">+</span><input type="number" data-path="AbilityPoints.Enemies.StaticBoost"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="AbilityPoints.Enemies.BoostPerIncrement"><span>more Ability Points every</span><input type="number" data-path="AbilityPoints.Enemies.LevelIncrement"><span>levels.</span></div></div>
+  </div></section>
+
+  <section class="panel"><span class="corner-tl"></span><span class="corner-br"></span><h2>Health</h2><div class="section-rule"></div><div class="subgroups">
+    <div class="subgroup" data-side="bosses"><h3>Bosses</h3>
+      <div class="field-row"><span class="label-strong">Health Boost for Bosses</span><span class="plus">+</span><input type="number" data-path="Health.Bosses.StaticBoost" data-pct="1"><span class="pct">%</span></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="Health.Bosses.HealthPerLevel" data-pct="1" step="0.1"><span class="pct">%</span><span>more Health per level.</span></div></div>
+    <div class="subgroup" data-side="enemies"><h3>Enemies</h3>
+      <div class="field-row"><span class="label-strong">Health Boost for Enemies</span><span class="plus">+</span><input type="number" data-path="Health.Enemies.StaticBoost" data-pct="1"><span class="pct">%</span></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="Health.Enemies.HealthPerLevel" data-pct="1" step="0.1"><span class="pct">%</span><span>more Health per level.</span></div></div>
+  </div></section>
+
+  <section class="panel"><span class="corner-tl"></span><span class="corner-br"></span><h2>Saving Throws</h2><div class="section-rule"></div><div class="subgroups">
+    <div class="subgroup" data-side="bosses"><h3>Bosses</h3>
+      <div class="field-row"><span class="label-strong">Saving Throw Bonus for Bosses</span><span class="plus">+</span><input type="number" data-path="Rolls.Bosses.SavingThrow.StaticRollBonus"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="Rolls.Bosses.SavingThrow.RollBonusPerIncrement"><span>more Saving Throw every</span><input type="number" data-path="Rolls.Bosses.SavingThrow.LevelIncrement"><span>levels.</span></div></div>
+    <div class="subgroup" data-side="enemies"><h3>Enemies</h3>
+      <div class="field-row"><span class="label-strong">Saving Throw Bonus for Enemies</span><span class="plus">+</span><input type="number" data-path="Rolls.Enemies.SavingThrow.StaticRollBonus"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="Rolls.Enemies.SavingThrow.RollBonusPerIncrement"><span>more Saving Throw every</span><input type="number" data-path="Rolls.Enemies.SavingThrow.LevelIncrement"><span>levels.</span></div></div>
+  </div></section>
+
+  <section class="panel"><span class="corner-tl"></span><span class="corner-br"></span><h2>Spell Save DC</h2><div class="section-rule"></div><div class="subgroups">
+    <div class="subgroup" data-side="bosses"><h3>Bosses</h3>
+      <div class="field-row"><span class="label-strong">Spell Save DC Boost for Bosses</span><span class="plus">+</span><input type="number" data-path="SpellSaveDC.Bosses.StaticBoost"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="SpellSaveDC.Bosses.BoostPerIncrement"><span>more DC every</span><input type="number" data-path="SpellSaveDC.Bosses.LevelIncrement"><span>levels.</span></div></div>
+    <div class="subgroup" data-side="enemies"><h3>Enemies</h3>
+      <div class="field-row"><span class="label-strong">Spell Save DC Boost for Enemies</span><span class="plus">+</span><input type="number" data-path="SpellSaveDC.Enemies.StaticBoost"></div>
+      <div class="field-row"><span class="plus">+</span><input type="number" data-path="SpellSaveDC.Enemies.BoostPerIncrement"><span>more DC every</span><input type="number" data-path="SpellSaveDC.Enemies.LevelIncrement"><span>levels.</span></div></div>
+  </div></section>
+
+  </div>
+</div>
+
+<div class="spells-tab">
+  <section class="panel"><span class="corner-tl"></span><span class="corner-br"></span>
+    <h2>Enemy Spells</h2><div class="section-rule"></div>
+    <div id="spellsContainer"></div>
   </section>
-
-  <!-- DAMAGE -->
-  <section class="panel">
-    <span class="corner-tl"></span><span class="corner-br"></span>
-    <h2>Damage</h2>
-    <div class="section-rule"></div>
-    <div class="subgroups">
-      <div class="subgroup" data-side="bosses">
-        <h3>Bosses</h3>
-        <div class="field-row">
-          <span class="label-strong">Damage Boost for Bosses</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="Damage.Bosses.StaticDamageBoost">
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="Damage.Bosses.DamagePerIncrement">
-          <span>more Damage every</span>
-          <input type="number" data-path="Damage.Bosses.LevelIncrement">
-          <span>levels.</span>
-        </div>
-      </div>
-      <div class="subgroup" data-side="enemies">
-        <h3>Enemies</h3>
-        <div class="field-row">
-          <span class="label-strong">Damage Boost for Enemies</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="Damage.Enemies.StaticDamageBoost">
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="Damage.Enemies.DamagePerIncrement">
-          <span>more Damage every</span>
-          <input type="number" data-path="Damage.Enemies.LevelIncrement">
-          <span>levels.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ARMOUR CLASS -->
-  <section class="panel">
-    <span class="corner-tl"></span><span class="corner-br"></span>
-    <h2>Armour Class</h2>
-    <div class="section-rule"></div>
-    <div class="subgroups">
-      <div class="subgroup" data-side="bosses">
-        <h3>Bosses</h3>
-        <div class="field-row">
-          <span class="label-strong">Armor Boost for Bosses</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="ArmourClass.Bosses.StaticBoost">
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="ArmourClass.Bosses.BoostPerIncrement">
-          <span>more Armor every</span>
-          <input type="number" data-path="ArmourClass.Bosses.LevelIncrement">
-          <span>levels.</span>
-        </div>
-      </div>
-      <div class="subgroup" data-side="enemies">
-        <h3>Enemies</h3>
-        <div class="field-row">
-          <span class="label-strong">Armor Boost for Enemies</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="ArmourClass.Enemies.StaticBoost">
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="ArmourClass.Enemies.BoostPerIncrement">
-          <span>more Armor every</span>
-          <input type="number" data-path="ArmourClass.Enemies.LevelIncrement">
-          <span>levels.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HEALTH -->
-  <section class="panel">
-    <span class="corner-tl"></span><span class="corner-br"></span>
-    <h2>Health</h2>
-    <div class="section-rule"></div>
-    <div class="subgroups">
-      <div class="subgroup" data-side="bosses">
-        <h3>Bosses</h3>
-        <div class="field-row">
-          <span class="label-strong">Health Boost for Bosses</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="Health.Bosses.StaticBoost" data-pct="1">
-          <span class="pct">%</span>
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="Health.Bosses.HealthPerLevel" data-pct="1" step="0.1">
-          <span class="pct">%</span>
-          <span>more Health per level.</span>
-        </div>
-      </div>
-      <div class="subgroup" data-side="enemies">
-        <h3>Enemies</h3>
-        <div class="field-row">
-          <span class="label-strong">Health Boost for Enemies</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="Health.Enemies.StaticBoost" data-pct="1">
-          <span class="pct">%</span>
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="Health.Enemies.HealthPerLevel" data-pct="1" step="0.1">
-          <span class="pct">%</span>
-          <span>more Health per level.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SAVING THROWS -->
-  <section class="panel">
-    <span class="corner-tl"></span><span class="corner-br"></span>
-    <h2>Saving Throws</h2>
-    <div class="section-rule"></div>
-    <div class="subgroups">
-      <div class="subgroup" data-side="bosses">
-        <h3>Bosses</h3>
-        <div class="field-row">
-          <span class="label-strong">Saving Throw Bonus for Bosses</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="Rolls.Bosses.SavingThrow.StaticRollBonus">
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="Rolls.Bosses.SavingThrow.RollBonusPerIncrement">
-          <span>more Saving Throw every</span>
-          <input type="number" data-path="Rolls.Bosses.SavingThrow.LevelIncrement">
-          <span>levels.</span>
-        </div>
-      </div>
-      <div class="subgroup" data-side="enemies">
-        <h3>Enemies</h3>
-        <div class="field-row">
-          <span class="label-strong">Saving Throw Bonus for Enemies</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="Rolls.Enemies.SavingThrow.StaticRollBonus">
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="Rolls.Enemies.SavingThrow.RollBonusPerIncrement">
-          <span>more Saving Throw every</span>
-          <input type="number" data-path="Rolls.Enemies.SavingThrow.LevelIncrement">
-          <span>levels.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SPELL SAVE DC -->
-  <section class="panel">
-    <span class="corner-tl"></span><span class="corner-br"></span>
-    <h2>Spell Save DC</h2>
-    <div class="section-rule"></div>
-    <div class="subgroups">
-      <div class="subgroup" data-side="bosses">
-        <h3>Bosses</h3>
-        <div class="field-row">
-          <span class="label-strong">Spell Save DC Boost for Bosses</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="SpellSaveDC.Bosses.StaticBoost">
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="SpellSaveDC.Bosses.BoostPerIncrement">
-          <span>more DC every</span>
-          <input type="number" data-path="SpellSaveDC.Bosses.LevelIncrement">
-          <span>levels.</span>
-        </div>
-      </div>
-      <div class="subgroup" data-side="enemies">
-        <h3>Enemies</h3>
-        <div class="field-row">
-          <span class="label-strong">Spell Save DC Boost for Enemies</span>
-          <span class="plus">+</span>
-          <input type="number" data-path="SpellSaveDC.Enemies.StaticBoost">
-        </div>
-        <div class="field-row">
-          <span class="plus">+</span>
-          <input type="number" data-path="SpellSaveDC.Enemies.BoostPerIncrement">
-          <span>more DC every</span>
-          <input type="number" data-path="SpellSaveDC.Enemies.LevelIncrement">
-          <span>levels.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  </div><!-- /.edit-col -->
-</div><!-- /.work-grid -->
-
+</div>
 </main>
 
-<footer>
-  <span class="div"></span>
-  <em>“Gird your loins, lest your loins take a beating, lest that's what you're into.”</em>
-</footer>
-
+<footer><span class="div"></span><em>"Gird your loins, lest your loins take a beating, lest that's what you're into."</em></footer>
 </div>
 
 <script>
-const SCRIPT_EXTENDER_PATH = "%localappdata%\\Larian Studios\\Baldur's Gate 3\\Script Extender";
+const SCRIPT_EXTENDER_PATH="%localappdata%\\Larian Studios\\Baldur's Gate 3\\Script Extender";
+let originalJson=null,originalRawText=null,loadedFileName="CombatExtender.json",spellEdits={};
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>Array.from(r.querySelectorAll(s));
 
-let originalJson = null;          // pristine parsed JSON, never mutated
-let originalRawText = null;       // pristine raw text of the uploaded file (for backup)
-let loadedFileName = "CombatExtender.json";
-
-const $ = (sel,root=document)=>root.querySelector(sel);
-const $$ = (sel,root=document)=>Array.from(root.querySelectorAll(sel));
-
-// default view shows ENEMIES
 document.body.classList.add("show-enemies");
-
-// SIDE TOGGLE
 $$(".toggle-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const side = btn.dataset.side; // "enemies" or "bosses"
-    document.body.classList.remove("show-enemies","show-bosses");
-    document.body.classList.add("show-"+side);
-    $$(".toggle-btn").forEach(b=>b.classList.toggle("active", b===btn));
+  btn.addEventListener("click",()=>{
+    const tab=btn.dataset.tab;
+    document.body.classList.remove("show-enemies","show-bosses","show-spells");
+    document.body.classList.add("show-"+tab);
+    $$(".toggle-btn").forEach(b=>b.classList.toggle("active",b===btn));
   });
 });
 
-// ---------- TOAST ----------
-function toast(msg, pathLine){
-  const t = $("#toast");
-  t.innerHTML = msg + (pathLine ? `<span class="path">${pathLine}</span>` : "");
-  t.classList.add("show");
-  clearTimeout(t._timer);
-  t._timer = setTimeout(()=>t.classList.remove("show"), 4500);
+function toast(msg,pathLine){
+  const t=$("#toast");
+  t.innerHTML=msg+(pathLine?`<span class="path">${pathLine}</span>`:"");
+  t.classList.add("show");clearTimeout(t._timer);
+  t._timer=setTimeout(()=>t.classList.remove("show"),4500);
 }
 
-// ---------- OPEN FOLDER BUTTON ----------
-$("#openFolderBtn").addEventListener("click", async ()=>{
-  try{
-    await navigator.clipboard.writeText(SCRIPT_EXTENDER_PATH);
-    toast("PATH COPIED — paste into Win+R or File Explorer's address bar", SCRIPT_EXTENDER_PATH);
-  }catch(e){
-    // fallback for older browsers
-    const ta = document.createElement("textarea");
-    ta.value = SCRIPT_EXTENDER_PATH;
-    document.body.appendChild(ta);
-    ta.select();
-    try{document.execCommand("copy");}catch(_){}
-    document.body.removeChild(ta);
-    toast("PATH COPIED — paste into Win+R", SCRIPT_EXTENDER_PATH);
-  }
+$("#openFolderBtn").addEventListener("click",async()=>{
+  try{await navigator.clipboard.writeText(SCRIPT_EXTENDER_PATH)}
+  catch(e){const ta=document.createElement("textarea");ta.value=SCRIPT_EXTENDER_PATH;document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(_){}document.body.removeChild(ta)}
+  toast("PATH COPIED \u2014 paste into Win+R or File Explorer",SCRIPT_EXTENDER_PATH);
 });
 
-// ---------- FILE LOAD ----------
-$("#fileInput").addEventListener("change", (e)=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  loadedFileName = file.name;
-  const reader = new FileReader();
-  reader.onload = (ev)=>{
+$("#fileInput").addEventListener("change",(e)=>{
+  const file=e.target.files[0];if(!file)return;
+  loadedFileName=file.name;
+  const reader=new FileReader();
+  reader.onload=(ev)=>{
     try{
-      originalRawText = ev.target.result;
-      originalJson = JSON.parse(ev.target.result);
-      $("#emptyState").hidden = true;
-      $("#editor").hidden = false;
-      // reveal the download button in the toolbar (replaces the old filename label)
-      const dl = $("#downloadBtn");
-      dl.hidden = false;
-      dl.classList.remove("primary");   // default gold style
-      dl.dataset.dirty = "0";
-      populateFields();
-      originalCells = computeBoostCells();   // baseline AFTER fields populated
-      renderSummary();
-      toast("TOME LOADED — " + file.name);
-    }catch(err){
-      toast("INVALID JSON — could not parse file");
-      console.error(err);
-    }
+      originalRawText=ev.target.result;
+      originalJson=JSON.parse(ev.target.result);
+      $("#emptyState").hidden=true;$("#editor").hidden=false;
+      const dl=$("#downloadBtn");dl.hidden=false;dl.classList.remove("primary");dl.dataset.dirty="0";
+      populateFields();initSpellEdits();renderSpells();
+      originalCells=computeBoostCells();renderSummary();
+      toast("TOME LOADED \u2014 "+file.name);
+    }catch(err){toast("INVALID JSON");console.error(err)}
   };
   reader.readAsText(file);
 });
 
-// when ANY editable field is changed, swap the button to the red 'dirty' style
-document.addEventListener("input", (e)=>{
-  if(e.target.matches("input[data-path]")){
-    const dl = $("#downloadBtn");
-    if(dl && dl.dataset.dirty !== "1"){
-      dl.dataset.dirty = "1";
-      dl.classList.add("primary");
-    }
-  }
-});
+function markDirty(){const dl=$("#downloadBtn");if(dl&&dl.dataset.dirty!=="1"){dl.dataset.dirty="1";dl.classList.add("primary")}}
+document.addEventListener("input",(e)=>{if(e.target.matches("input[data-path]")){markDirty();renderSummary()}});
 
-// ---------- PATH UTILITIES ----------
-function getByPath(obj, path){
-  return path.split(".").reduce((o,k)=> (o && k in o) ? o[k] : undefined, obj);
-}
-function setByPath(obj, path, value){
-  const keys = path.split(".");
-  let cur = obj;
-  for(let i=0;i<keys.length-1;i++){
-    if(!(keys[i] in cur) || typeof cur[keys[i]] !== "object" || cur[keys[i]] === null){
-      cur[keys[i]] = {};
-    }
-    cur = cur[keys[i]];
-  }
-  cur[keys[keys.length-1]] = value;
-}
+function getByPath(o,p){return p.split(".").reduce((a,k)=>(a&&k in a)?a[k]:undefined,o)}
+function setByPath(o,p,v){const ks=p.split(".");let c=o;for(let i=0;i<ks.length-1;i++){if(!(ks[i] in c)||typeof c[ks[i]]!=="object"||c[ks[i]]===null)c[ks[i]]={};c=c[ks[i]]}c[ks[ks.length-1]]=v}
 
-// ---------- POPULATE FIELDS FROM JSON ----------
 function populateFields(){
   $$("input[data-path]").forEach(input=>{
-    const path = input.dataset.path;
-    const raw = getByPath(originalJson, path);
-    if(raw === undefined || raw === null){
-      input.value = 0;
-      return;
-    }
-    if(input.dataset.pct === "1"){
-      // store as decimal (0.1 = 10%) — display as percent
-      const pct = +raw * 100;
-      input.value = Number.isInteger(pct) ? pct : +pct.toFixed(2);
-    }else{
-      input.value = raw;
-    }
+    const raw=getByPath(originalJson,input.dataset.path);
+    if(raw===undefined||raw===null){input.value=0;return}
+    if(input.dataset.pct==="1"){const pct=+raw*100;input.value=Number.isInteger(pct)?pct:+pct.toFixed(2)}
+    else{input.value=raw}
   });
 }
 
-// re-render summary on any field change
-document.addEventListener("input", (e)=>{
-  if(e.target.matches("input[data-path]")) renderSummary();
+// ---- SPELL MANAGEMENT ----
+function initSpellEdits(){
+  spellEdits={};
+  if(!originalJson?.Passives)return;
+  originalJson.Passives.forEach(p=>{if(p.Spells&&Array.isArray(p.Spells))spellEdits[p.PassiveName]=[...p.Spells]});
+}
+
+function parseSpellLevel(pn){
+  let m=pn.match(/^CX_Spells_L(\d+)$/);if(m)return{level:+m[1],type:"damage",sort:+m[1]*10};
+  m=pn.match(/^CX_Spells_L(\d+)C$/);if(m)return{level:+m[1],type:"control",sort:+m[1]*10+1};
+  m=pn.match(/^CX_(\w+)_Boost$/);if(m)return{level:null,type:"class",className:m[1],sort:1000};
+  return{level:null,type:"other",sort:2000};
+}
+
+function spellGroupLabel(pn,info){
+  if(info.type==="damage")return`Level ${info.level} \u2014 Damage Spells`;
+  if(info.type==="control")return`Level ${info.level} \u2014 Control Spells`;
+  if(info.type==="class")return`${info.className} Abilities`;
+  return pn;
+}
+
+function renderSpells(){
+  const c=$("#spellsContainer");if(!c)return;
+  const entries=[];
+  if(originalJson?.Passives){
+    originalJson.Passives.forEach(p=>{
+      if(!spellEdits[p.PassiveName])return;
+      entries.push({passiveName:p.PassiveName,info:parseSpellLevel(p.PassiveName),passive:p});
+    });
+  }
+  entries.sort((a,b)=>a.info.sort-b.info.sort);
+  let html="",lastType="";
+  for(const e of entries){
+    if(e.info.type!==lastType){
+      lastType=e.info.type;
+      if(e.info.type==="damage")html+=`<div class="spell-section-divider">Damage Spells</div>`;
+      else if(e.info.type==="control")html+=`<div class="spell-section-divider">Control Spells</div>`;
+      else if(e.info.type==="class")html+=`<div class="spell-section-divider">Class Abilities</div>`;
+    }
+    const label=spellGroupLabel(e.passiveName,e.info);
+    const spells=spellEdits[e.passiveName]||[];
+    let slotNote="";
+    if(e.passive.ExtraSpellSlots){
+      const nz=e.passive.ExtraSpellSlots.map((s,i)=>({lvl:i+1,n:parseInt(s)||0})).filter(x=>x.n>0);
+      if(nz.length)slotNote=`<div class="spell-slots-note">Grants ${nz.map(x=>`+${x.n} Level ${x.lvl} slot`).join(", ")}</div>`;
+    }
+    html+=`<div class="spell-level-group"><h3>${label}</h3>${slotNote}<div class="spell-list" data-passive="${e.passiveName}">`;
+    for(const sp of spells){
+      html+=`<span class="spell-tag"><span class="spell-name">${sp}</span><button class="remove-spell" data-passive="${e.passiveName}" data-spell="${sp}" title="Remove">\u00d7</button></span>`;
+    }
+    html+=`</div><div class="add-spell-row"><input type="text" placeholder="Enter spell name\u2026" data-add-passive="${e.passiveName}"><button onclick="addSpellFromInput(this)" data-passive="${e.passiveName}">Add Spell</button></div></div>`;
+  }
+  c.innerHTML=html;
+}
+
+document.addEventListener("click",(e)=>{
+  const btn=e.target.closest(".remove-spell");if(!btn)return;
+  const passive=btn.dataset.passive,spell=btn.dataset.spell;
+  if(!spellEdits[passive])return;
+  spellEdits[passive]=spellEdits[passive].filter(s=>s!==spell);
+  markDirty();renderSpells();
 });
 
-// ---------- DEEP CLONE & APPLY EDITS ----------
+function addSpellFromInput(btn){
+  const passive=btn.dataset.passive;
+  const input=$(`input[data-add-passive="${passive}"]`);if(!input)return;
+  const spell=input.value.trim();if(!spell)return;
+  if(!spellEdits[passive])spellEdits[passive]=[];
+  if(spellEdits[passive].includes(spell)){toast("SPELL ALREADY EXISTS");return}
+  spellEdits[passive].push(spell);input.value="";markDirty();renderSpells();
+}
+
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="Enter"&&e.target.matches("input[data-add-passive]")){
+    e.preventDefault();
+    const passive=e.target.dataset.addPassive;
+    const btn=$(`button[data-passive="${passive}"]`);
+    if(btn)addSpellFromInput(btn);
+  }
+});
+
 function buildModifiedJson(){
-  const out = JSON.parse(JSON.stringify(originalJson));
+  const out=JSON.parse(JSON.stringify(originalJson));
   $$("input[data-path]").forEach(input=>{
-    const path = input.dataset.path;
-    let val = input.value === "" ? 0 : Number(input.value);
-    if(Number.isNaN(val)) val = 0;
-    if(input.dataset.pct === "1"){
-      val = val / 100;
-      // round to 4 decimal places to avoid float weirdness like 0.020000000000000004
-      val = Math.round(val * 10000) / 10000;
-    }
-    setByPath(out, path, val);
+    let val=input.value===""?0:Number(input.value);if(Number.isNaN(val))val=0;
+    if(input.dataset.pct==="1"){val=Math.round((val/100)*10000)/10000}
+    setByPath(out,input.dataset.path,val);
   });
+  if(out.Passives&&Array.isArray(out.Passives)){
+    out.Passives.forEach(p=>{if(spellEdits[p.PassiveName])p.Spells=[...spellEdits[p.PassiveName]]});
+  }
   return out;
 }
 
-// ---------- DOWNLOAD ----------
-$("#downloadBtn").addEventListener("click", ()=>{
-  if(!originalJson){ toast("LOAD A FILE FIRST"); return; }
-
-  // 1) BACKUP — the user's original uploaded file, unchanged byte-for-byte
-  const backupBlob = new Blob([originalRawText], {type:"application/json"});
-  const backupUrl  = URL.createObjectURL(backupBlob);
-  const backupName = "CombatExtender_previous_file.json.backup";
-  const a1 = document.createElement("a");
-  a1.href = backupUrl;
-  a1.download = backupName;
-  document.body.appendChild(a1);
-  a1.click();
-  document.body.removeChild(a1);
-
-  // 2) MODIFIED — keeps the original filename CombatExtender.json
-  // tiny delay so the browser doesn't merge/cancel the second download
+$("#downloadBtn").addEventListener("click",()=>{
+  if(!originalJson){toast("LOAD A FILE FIRST");return}
+  const bb=new Blob([originalRawText],{type:"application/json"}),bu=URL.createObjectURL(bb);
+  const a1=document.createElement("a");a1.href=bu;a1.download="CombatExtender_previous_file.json.backup";
+  document.body.appendChild(a1);a1.click();document.body.removeChild(a1);
   setTimeout(()=>{
-    const modified = buildModifiedJson();
-    const json = JSON.stringify(modified, null, 4);
-    const blob = new Blob([json], {type:"application/json"});
-    const url = URL.createObjectURL(blob);
-    const a2 = document.createElement("a");
-    a2.href = url;
-    a2.download = "CombatExtender.json";
-    document.body.appendChild(a2);
-    a2.click();
-    document.body.removeChild(a2);
-    setTimeout(()=>{ URL.revokeObjectURL(url); URL.revokeObjectURL(backupUrl); }, 1500);
-  }, 250);
-
-  toast("TWO TOMES SAVED — backup + new CombatExtender.json", backupName);
+    const m=buildModifiedJson(),b=new Blob([JSON.stringify(m,null,4)],{type:"application/json"}),u=URL.createObjectURL(b);
+    const a2=document.createElement("a");a2.href=u;a2.download="CombatExtender.json";
+    document.body.appendChild(a2);a2.click();document.body.removeChild(a2);
+    setTimeout(()=>{URL.revokeObjectURL(u);URL.revokeObjectURL(bu)},1500);
+  },250);
+  toast("TWO TOMES SAVED \u2014 backup + new CombatExtender.json");
 });
 
-// ---------- SUMMARY TABLES ----------
-function readField(path){
-  const el = document.querySelector(`input[data-path="${path}"]`);
-  if(!el) return 0;
-  const v = Number(el.value);
-  return Number.isNaN(v) ? 0 : v;
-}
-function calcBoost(level, staticBoost, perInc, levelInc){
-  if(!levelInc || levelInc <= 0) return staticBoost;
-  return staticBoost + Math.floor(level / levelInc) * perInc;
-}
-
-// snapshot of computed boost cells when file is freshly loaded; later compared per render
-let originalCells = null;
+function readField(p){const el=$(`input[data-path="${p}"]`);if(!el)return 0;const v=Number(el.value);return Number.isNaN(v)?0:v}
+function calcBoost(lv,s,p,l){if(!l||l<=0)return s;return s+Math.floor(lv/l)*p}
+let originalCells=null;
 
 function computeBoostCells(){
-  const out = {};
-  for(const side of ["Bosses","Enemies"]){
-    const params = {
-      ac:  {s:readField(`ArmourClass.${side}.StaticBoost`),       p:readField(`ArmourClass.${side}.BoostPerIncrement`),       l:readField(`ArmourClass.${side}.LevelIncrement`)},
-      dmg: {s:readField(`Damage.${side}.StaticDamageBoost`),      p:readField(`Damage.${side}.DamagePerIncrement`),           l:readField(`Damage.${side}.LevelIncrement`)},
-      atk: {s:readField(`Rolls.${side}.Attack.StaticRollBonus`),  p:readField(`Rolls.${side}.Attack.RollBonusPerIncrement`),  l:readField(`Rolls.${side}.Attack.LevelIncrement`)},
-      sav: {s:readField(`Rolls.${side}.SavingThrow.StaticRollBonus`), p:readField(`Rolls.${side}.SavingThrow.RollBonusPerIncrement`), l:readField(`Rolls.${side}.SavingThrow.LevelIncrement`)},
-      dc:  {s:readField(`SpellSaveDC.${side}.StaticBoost`),       p:readField(`SpellSaveDC.${side}.BoostPerIncrement`),       l:readField(`SpellSaveDC.${side}.LevelIncrement`)}
+  const out={};
+  for(const side of["Bosses","Enemies"]){
+    const p={
+      atk:{s:readField(`Rolls.${side}.Attack.StaticRollBonus`),p:readField(`Rolls.${side}.Attack.RollBonusPerIncrement`),l:readField(`Rolls.${side}.Attack.LevelIncrement`)},
+      dmg:{s:readField(`Damage.${side}.StaticDamageBoost`),p:readField(`Damage.${side}.DamagePerIncrement`),l:readField(`Damage.${side}.LevelIncrement`)},
+      ac:{s:readField(`ArmourClass.${side}.StaticBoost`),p:readField(`ArmourClass.${side}.BoostPerIncrement`),l:readField(`ArmourClass.${side}.LevelIncrement`)},
+      ab:{s:readField(`AbilityPoints.${side}.StaticBoost`),p:readField(`AbilityPoints.${side}.BoostPerIncrement`),l:readField(`AbilityPoints.${side}.LevelIncrement`)},
+      sav:{s:readField(`Rolls.${side}.SavingThrow.StaticRollBonus`),p:readField(`Rolls.${side}.SavingThrow.RollBonusPerIncrement`),l:readField(`Rolls.${side}.SavingThrow.LevelIncrement`)},
+      dc:{s:readField(`SpellSaveDC.${side}.StaticBoost`),p:readField(`SpellSaveDC.${side}.BoostPerIncrement`),l:readField(`SpellSaveDC.${side}.LevelIncrement`)}
     };
-    const hpStatic = readField(`Health.${side}.StaticBoost`);    // displayed as %
-    const hpPerLv  = readField(`Health.${side}.HealthPerLevel`); // displayed as %
-    for(let lv=1; lv<=12; lv++){
-      out[`${side}_${lv}_atk`] = calcBoost(lv, params.atk.s, params.atk.p, params.atk.l);
-      out[`${side}_${lv}_dmg`] = calcBoost(lv, params.dmg.s, params.dmg.p, params.dmg.l);
-      out[`${side}_${lv}_ac`]  = calcBoost(lv, params.ac.s,  params.ac.p,  params.ac.l);
-      out[`${side}_${lv}_hp`]  = Math.round((hpStatic + hpPerLv * lv) * 10) / 10; // 1dp
-      out[`${side}_${lv}_sav`] = calcBoost(lv, params.sav.s, params.sav.p, params.sav.l);
-      out[`${side}_${lv}_dc`]  = calcBoost(lv, params.dc.s,  params.dc.p,  params.dc.l);
+    const hpS=readField(`Health.${side}.StaticBoost`),hpL=readField(`Health.${side}.HealthPerLevel`);
+    for(let lv=1;lv<=20;lv++){
+      out[`${side}_${lv}_atk`]=calcBoost(lv,p.atk.s,p.atk.p,p.atk.l);
+      out[`${side}_${lv}_dmg`]=calcBoost(lv,p.dmg.s,p.dmg.p,p.dmg.l);
+      out[`${side}_${lv}_ac`]=calcBoost(lv,p.ac.s,p.ac.p,p.ac.l);
+      out[`${side}_${lv}_ab`]=calcBoost(lv,p.ab.s,p.ab.p,p.ab.l);
+      out[`${side}_${lv}_hp`]=Math.round((hpS+hpL*lv)*10)/10;
+      out[`${side}_${lv}_sav`]=calcBoost(lv,p.sav.s,p.sav.p,p.sav.l);
+      out[`${side}_${lv}_dc`]=calcBoost(lv,p.dc.s,p.dc.p,p.dc.l);
     }
   }
   return out;
 }
 
 function renderSummary(){
-  const MAX_LEVEL = 12;
-  const cells = computeBoostCells();
-  const isChanged = key => originalCells && cells[key] !== originalCells[key];
-  const cellCls   = key => "value" + (isChanged(key) ? " changed" : "");
+  const cells=computeBoostCells();
+  const isC=k=>originalCells&&cells[k]!==originalCells[k];
+  const cls=k=>"value"+(isC(k)?" changed":"");
+  const fS=n=>(n>=0?"+":"")+n;
+  const fP=n=>(n>=0?"+":"")+(Number.isInteger(n)?n:n.toFixed(1))+"%";
 
-  function makeBoostTable(side){
-    let html = `<thead><tr>
-      <th>Level</th>
-      <th>Attack Roll</th>
-      <th>Damage</th>
-      <th>Armour Class</th>
-      <th>Health</th>
-      <th>Saving Throw</th>
-      <th>Spell Save DC</th>
-    </tr></thead><tbody>`;
-    const fmtSigned  = n => (n>=0?"+":"") + n;
-    const fmtPercent = n => (n>=0?"+":"") + (Number.isInteger(n) ? n : n.toFixed(1)) + "%";
-    for(let lv=1; lv<=MAX_LEVEL; lv++){
-      html += `<tr>
-        <td class="label">Lv ${lv}</td>
-        <td class="${cellCls(`${side}_${lv}_atk`)}">${fmtSigned(cells[`${side}_${lv}_atk`])}</td>
-        <td class="${cellCls(`${side}_${lv}_dmg`)}">${fmtSigned(cells[`${side}_${lv}_dmg`])}</td>
-        <td class="${cellCls(`${side}_${lv}_ac`)}">${fmtSigned(cells[`${side}_${lv}_ac`])}</td>
-        <td class="${cellCls(`${side}_${lv}_hp`)}">${fmtPercent(cells[`${side}_${lv}_hp`])}</td>
-        <td class="${cellCls(`${side}_${lv}_sav`)}">${fmtSigned(cells[`${side}_${lv}_sav`])}</td>
-        <td class="${cellCls(`${side}_${lv}_dc`)}">${fmtSigned(cells[`${side}_${lv}_dc`])}</td>
-      </tr>`;
+  function makeTable(side){
+    let h=`<thead><tr><th>Lv</th><th>Atk</th><th>Dmg</th><th>AC</th><th>Ability</th><th>HP</th><th>Save</th><th>DC</th></tr></thead><tbody>`;
+    for(let lv=1;lv<=20;lv++){
+      h+=`<tr><td class="label">${lv}</td>
+        <td class="${cls(`${side}_${lv}_atk`)}">${fS(cells[`${side}_${lv}_atk`])}</td>
+        <td class="${cls(`${side}_${lv}_dmg`)}">${fS(cells[`${side}_${lv}_dmg`])}</td>
+        <td class="${cls(`${side}_${lv}_ac`)}">${fS(cells[`${side}_${lv}_ac`])}</td>
+        <td class="${cls(`${side}_${lv}_ab`)}">${fS(cells[`${side}_${lv}_ab`])}</td>
+        <td class="${cls(`${side}_${lv}_hp`)}">${fP(cells[`${side}_${lv}_hp`])}</td>
+        <td class="${cls(`${side}_${lv}_sav`)}">${fS(cells[`${side}_${lv}_sav`])}</td>
+        <td class="${cls(`${side}_${lv}_dc`)}">${fS(cells[`${side}_${lv}_dc`])}</td></tr>`;
     }
-    html += `</tbody>`;
-    return html;
+    return h+"</tbody>";
   }
+  $("#bossBoostTable").innerHTML=makeTable("Bosses");
+  $("#enemyBoostTable").innerHTML=makeTable("Enemies");
 
-  $("#bossBoostTable").innerHTML = makeBoostTable("Bosses");
-  $("#enemyBoostTable").innerHTML = makeBoostTable("Enemies");
+  const movB=originalJson?.Movement?.Bosses?.StaticBoost??0,movE=originalJson?.Movement?.Enemies?.StaticBoost??0;
+  const ft=m=>Math.round(m*3.28084*10)/10;
+  $("#movementTable").innerHTML=`<thead><tr><th>Type</th><th>m</th><th>ft</th></tr></thead><tbody>
+    <tr data-row="enemy"><td class="label">Enemy</td><td class="value">${movE}</td><td class="value">${ft(movE)}</td></tr>
+    <tr data-row="boss"><td class="label">Boss</td><td class="value">${movB}</td><td class="value">${ft(movB)}</td></tr></tbody>`;
 
-  // movement (read-only from original json)
-  const movB = (originalJson?.Movement?.Bosses?.StaticBoost) ?? 0;
-  const movE = (originalJson?.Movement?.Enemies?.StaticBoost) ?? 0;
-  const mToFt = m => Math.round(m * 3.28084 * 10) / 10;
-  $("#movementTable").innerHTML = `
-    <thead><tr><th>Type</th><th>Boost (m)</th><th>Boost (ft)</th></tr></thead>
-    <tbody>
-      <tr data-row="enemy"><td class="label">Enemy</td><td class="value">${movE}</td><td class="value">${mToFt(movE)}</td></tr>
-      <tr data-row="boss"><td class="label">Boss</td><td class="value">${movB}</td><td class="value">${mToFt(movB)}</td></tr>
-    </tbody>`;
-
-  // extra action (read-only)
-  const eaB_a = originalJson?.ExtraAction?.Bosses?.Action?.Additional ?? 0;
-  const eaB_b = originalJson?.ExtraAction?.Bosses?.BonusAction?.Additional ?? 0;
-  const eaE_a = originalJson?.ExtraAction?.Enemies?.Action?.Additional ?? 0;
-  const eaE_b = originalJson?.ExtraAction?.Enemies?.BonusAction?.Additional ?? 0;
-  $("#actionTable").innerHTML = `
-    <thead><tr><th>Type</th><th>Action</th><th>Bonus Action</th></tr></thead>
-    <tbody>
-      <tr data-row="enemy"><td class="label">Enemy</td><td class="value">${eaE_a}</td><td class="value">${eaE_b}</td></tr>
-      <tr data-row="boss"><td class="label">Boss</td><td class="value">${eaB_a}</td><td class="value">${eaB_b}</td></tr>
-    </tbody>`;
+  const eaB_a=originalJson?.ExtraAction?.Bosses?.Action?.Additional??0,eaB_b=originalJson?.ExtraAction?.Bosses?.BonusAction?.Additional??0;
+  const eaE_a=originalJson?.ExtraAction?.Enemies?.Action?.Additional??0,eaE_b=originalJson?.ExtraAction?.Enemies?.BonusAction?.Additional??0;
+  $("#actionTable").innerHTML=`<thead><tr><th>Type</th><th>Action</th><th>Bonus</th></tr></thead><tbody>
+    <tr data-row="enemy"><td class="label">Enemy</td><td class="value">${eaE_a}</td><td class="value">${eaE_b}</td></tr>
+    <tr data-row="boss"><td class="label">Boss</td><td class="value">${eaB_a}</td><td class="value">${eaB_b}</td></tr></tbody>`;
 }
 </script>
 </body>
