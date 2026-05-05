@@ -101,6 +101,9 @@ body.show-bosses tr[data-row="enemy"]{display:none}
 body.show-spells .work-grid{display:none!important}
 body.show-spells .spells-tab{display:block!important}
 body:not(.show-spells) .spells-tab{display:none!important}
+body.show-scaling .work-grid{display:none!important}
+body.show-scaling .scaling-tab{display:block!important}
+body:not(.show-scaling) .scaling-tab{display:none!important}
 
 /* 2-column grid */
 .work-grid{display:grid;grid-template-columns:minmax(0,780px) minmax(0,1fr);gap:32px;align-items:start;margin-bottom:36px}
@@ -131,6 +134,7 @@ body:not(.show-spells) .spells-tab{display:none!important}
 
 /* spells tab */
 .spells-tab{margin-bottom:36px}
+.scaling-tab{margin-bottom:36px}
 .spell-level-group{margin-bottom:28px}
 .spell-level-group h3{font-family:'Cinzel',serif;font-weight:700;font-size:20px;letter-spacing:0.18em;color:var(--gold-bright);margin:0 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border-gold);text-shadow:0 0 14px var(--shadow-gold)}
 .spell-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
@@ -173,6 +177,7 @@ footer .div{display:block;margin:0 auto 14px;width:200px;height:1px;background:l
     <button type="button" class="toggle-btn active" data-tab="enemies"><span class="marker"></span>For Enemies</button>
     <button type="button" class="toggle-btn" data-tab="bosses"><span class="marker"></span>For Bosses</button>
     <button type="button" class="toggle-btn" data-tab="spells"><span class="marker"></span>Spells</button>
+    <button type="button" class="toggle-btn" data-tab="scaling"><span class="marker"></span>Scaling</button>
   </div>
 
 <div class="work-grid">
@@ -261,6 +266,52 @@ footer .div{display:block;margin:0 auto 14px;width:200px;height:1px;background:l
     <div id="spellsContainer"></div>
   </section>
 </div>
+
+<div class="scaling-tab">
+  <section class="panel"><span class="corner-tl"></span><span class="corner-br"></span>
+    <h2>Level Scaling</h2><div class="section-rule"></div>
+
+    <div class="subgroups" style="display:grid;grid-template-columns:1fr 1fr;gap:36px;max-width:700px">
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-weight:700;font-size:18px;letter-spacing:0.18em;color:var(--gold-bright);margin:0 0 20px;padding-bottom:10px;border-bottom:2px solid var(--border-gold)">Characters</h3>
+        <div class="spell-level-group" style="margin-bottom:20px">
+          <h3 style="font-size:15px;margin-bottom:12px">Act 1</h3>
+          <div class="field-row"><span>Max Level</span><input type="number" data-path="Level.Characters.Act.1.MaxLevel"></div>
+          <div class="field-row"><span>Offset</span><span class="plus">+</span><input type="number" data-path="Level.Characters.Act.1.Offset"></div>
+        </div>
+        <div class="spell-level-group" style="margin-bottom:20px">
+          <h3 style="font-size:15px;margin-bottom:12px">Act 2</h3>
+          <div class="field-row"><span>Max Level</span><input type="number" data-path="Level.Characters.Act.2.MaxLevel"></div>
+          <div class="field-row"><span>Offset</span><span class="plus">+</span><input type="number" data-path="Level.Characters.Act.2.Offset"></div>
+        </div>
+        <div class="spell-level-group">
+          <h3 style="font-size:15px;margin-bottom:12px">Act 3</h3>
+          <div class="field-row"><span>Max Level</span><input type="number" data-path="Level.Characters.Act.3.MaxLevel"></div>
+          <div class="field-row"><span>Offset</span><span class="plus">+</span><input type="number" data-path="Level.Characters.Act.3.Offset"></div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-weight:700;font-size:18px;letter-spacing:0.18em;color:var(--crimson-bright);margin:0 0 20px;padding-bottom:10px;border-bottom:2px solid var(--crimson-deep)">Bosses</h3>
+        <div class="spell-level-group" style="margin-bottom:20px">
+          <h3 style="font-size:15px;margin-bottom:12px">Act 1</h3>
+          <div class="field-row"><span>Max Level</span><input type="number" data-path="Level.Bosses.Act.1.MaxLevel"></div>
+          <div class="field-row"><span>Offset</span><span class="plus">+</span><input type="number" data-path="Level.Bosses.Act.1.Offset"></div>
+        </div>
+        <div class="spell-level-group" style="margin-bottom:20px">
+          <h3 style="font-size:15px;margin-bottom:12px">Act 2</h3>
+          <div class="field-row"><span>Max Level</span><input type="number" data-path="Level.Bosses.Act.2.MaxLevel"></div>
+          <div class="field-row"><span>Offset</span><span class="plus">+</span><input type="number" data-path="Level.Bosses.Act.2.Offset"></div>
+        </div>
+        <div class="spell-level-group">
+          <h3 style="font-size:15px;margin-bottom:12px">Act 3</h3>
+          <div class="field-row"><span>Max Level</span><input type="number" data-path="Level.Bosses.Act.3.MaxLevel"></div>
+          <div class="field-row"><span>Offset</span><span class="plus">+</span><input type="number" data-path="Level.Bosses.Act.3.Offset"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
 </main>
 
 <footer><span class="div"></span><em>"Gird your loins, lest your loins take a beating, lest that's what you're into."</em></footer>
@@ -275,7 +326,7 @@ document.body.classList.add("show-enemies");
 $$(".toggle-btn").forEach(btn=>{
   btn.addEventListener("click",()=>{
     const tab=btn.dataset.tab;
-    document.body.classList.remove("show-enemies","show-bosses","show-spells");
+    document.body.classList.remove("show-enemies","show-bosses","show-spells","show-scaling");
     document.body.classList.add("show-"+tab);
     $$(".toggle-btn").forEach(b=>b.classList.toggle("active",b===btn));
   });
